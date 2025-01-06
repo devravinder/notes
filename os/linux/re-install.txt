@@ -1,0 +1,174 @@
+
+
+================ enable GUI on ec2 ubuntu
+https://www.australtech.net/how-to-enable-gui-on-aws-ec2-ubuntu-server/
+
+
+--------------------------------- Un-Installing Ubuntu
+
+steps to take care
+--------------------
+take back up of
+1) programs
+2) drive content
+3) aliases
+4) notes ( folder ) ***
+
+
+5) note down softwares required
+	chrome
+	dbeaver-ce
+	VSC
+	git
+	Node&npm
+	jDK(Java)
+	postman
+	sts
+	tomcat
+	android-studio
+	remmina	(remote desktop client)( installed-default )
+	any-desk
+	VLC  
+	youtube-dl
+	fileZilla
+	kazam ( screen recorder )
+	printer-driver (optional)
+
+
+
+################################################################################
+################################################################################
+################################################################################
+
+--------------------------------- Re-Installing Ubuntu
+
+1) install chrome
+2) update aliases
+
+install curl
+3) apt install curl
+
+
+4) install node & npm
+         (ref https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/)
+
+	1) enable repository (if you want 12 plus change to setup_12.x )
+	   curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -     
+	
+	2) install node&npm
+	  sudo apt install nodejs
+
+	3) check versions
+	  node --version
+	  npm --version
+
+4)+ 	sudo apt install git
+
+5) install VSC from app store
+    and extensions
+    1) es7 react/graphQL snippets
+    2) git lens
+    3) markdown preview
+    4) Vetur
+    5) live server (optional)
+	6) golang
+	7) svelte (optional)
+	8) Debugger for chrome
+	9) Docker
+	10) Eslint
+	11) Terraform
+	12) insert Unicode
+
+6) dbeaver-ce  from app store
+7) Postman from app store
+
+8) install git
+   apt install git
+
+9) JDK setup
+    jdk 8 
+        ( ref https://askubuntu.com/questions/464755/how-to-install-openjdk-8-on-14-04-lts)
+	1) sudo apt-get install openjdk-8-jdk
+	2) sudo apt-get install openjdk-8-jre
+        3) check version
+          javac -version
+
+
+   to manage more than one jdk 
+   ref https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-debian-8#managing-java
+
+
+10) download sts(eclipse)   
+   and set desktop entry
+   
+	1) create desktop entry file in /usr/share/applications
+             (sts.desktop)  and paste the below code
+
+	-----------------------------
+	
+	[Desktop Entry]
+	Type=Application
+	Name=sts
+	Comment=Spring Tool Suite
+	Icon=/home/pvr/sts-bundle/sts-3.8.2.RELEASE/icon.xpm
+	Exec=/home/pvr/sts-bundle/sts-3.8.2.RELEASE/STS
+	Terminal=false
+	Categories=Development;IDE;Java;
+	StartupWMClass=STS
+
+11) download VLC media from app store
+12) apt  install youtube-dl
+
+13) android-studio
+	1) download android-studio zip file
+	2) extract and execute studio.sh in bin folder
+              then it'll install android sdk in folder '/home/ravinder/Android/Sdk' or any
+	
+
+	3) sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+	
+	set configurations ( preffer in bash.bashrc) 
+
+	export ANDROID_HOME="/home/ravinder/Android/Sdk" ## or "/usr/local/android-studio/"
+	export PATH="$PATH:$ANDROID_HOME/tools"
+	export PATH="$PATH:$ANDROID_HOME/platform-tools"
+
+	alias android="/home/ravinder/Drive/soft/android-studio/android-studio-ide-191.6010548-linux/android-studio/bin/studio.sh"
+	( optional to execute easily )
+
+	till this is enough for capacitor
+	
+	
+
+	
+
+	(ref https://developer.android.com/studio/run/emulator-acceleration?utm_source=android-studio#vm-linux)
+	(ref https://help.ubuntu.com/community/KVM/Installation)
+	(ref https://www.linux-kvm.org/page/Main_Page)
+	now install KVM(Kernal Virtual Michane)
+	-----------------------------
+	check system requirements
+	1) apt install cpu-checker      		## to check cpu requirements
+	
+	2) $ egrep -c '(vmx|svm)' /proc/cpuinfo		## if output is more than one ... then we can install KVM
+             or
+	2) $ kvm-ok					## execute this cmd ....and see the output
+							if output is 'KVM acceleration can be used' then we can install KVM
+
+	
+				
+14) epson L365 printer driver
+	ref https://askubuntu.com/questions/771427/how-to-install-epson-printer-drivers-on-ubuntu-16-04
+	driver http://download.ebz.epson.net/dsc/du/02/DriverDownloadInfo.do?LG2=EN&CN2=&DSCMI=34541&DSCCHK=141ba614c212ead0099d27f8dc8f2bc35faf7781
+
+    hp driver
+	     apt install hplip
+
+	   ref https://www.youtube.com/watch?v=G0r1awenSug
+
+
+
+
+
+
+

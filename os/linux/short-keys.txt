@@ -1,0 +1,40 @@
+super key = windows key
+
+-----------------------------------
+custom Keyboard shoft cut
+Settings->Devices->Keyboard
+
+==============================================  cmd ============================
+ctrl + alt + t    open terminal
+ctrl + shift + t   to open one more terminal ( works after openin terminal)
+alt+  cmdNo   to switch to the specific terminal
+
+
+=================================== 
+
+shift + prtSc         snap screen shot
+
+ctrl + shoft + alt + R    screen recording
+
+ctrl + alt + delete   logout
+super + L             lock screen
+
+super + arrow key    Snapping the window
+
+alt + f2        quic command
+
+super + h      hide the app
+super          windows spread ( make all windows spread on Desktop )
+
+alt + tab ( or ) alt + shift + tab      siwtch b/t windows
+alt + esc                               siwtch b/t windows
+
+super + no                              lanuch favouite app
+
+super  + pageUp/ pageDown               move/switch work space
+ctrl + alt + arrow                      move/switch work space
+
+super + a                               apps grid
+super + M                               Notofication / calender
+
+ctrl + Q                                quit the app

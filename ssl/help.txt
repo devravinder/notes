@@ -1,0 +1,64 @@
+ $ hostname -I     ## to see ip add
+
+SSL Certificate Setup with Node-Express ( Self Certified and Certificate Authority (CA) )
+
+
+Steps:-
+
+1) Generating private key                            --> ( file.key or key.pem)
+2) Generating CSR(Certificate Signing Request) file  --> ( file.csr or csr.pem)
+3) Generating Certificate file ( crt)                --> ( file.crt or crt.pem)
+
+
+----------------------------------------------------
+
+1) Generating private key:- 
+   $ openssl genrsa -out server.key
+
+2) Generating CSR :-
+    gerate CSR file using private key
+
+    $ openssl req -new -key server.key -out server.csr
+
+    Note:-give correct host name
+         common Name (e.g. server FQDN or YOUR name) []: localhost
+
+
+3) Generating Certificate file:-
+        gerate Certificate file using CSR file
+
+ a) Self Certified:-
+   $ openssl x509 -req -days 9999 -in server.csr -signkey server.key -out server.crt
+
+ b) Upload the CSR file to any SSL Certificate Authority site ( eg: Godaddy)
+    then they will give Certificate
+                            they will give 
+                                   certificate.crt,  // crt file  main
+                                   certificate.pem
+                                   gd_bundle-g2-g1.crt   // Chain files
+
+
+--------------------- or with .pem extention -----------
+
+       $ openssl genrsa -out key.pem
+       $ openssl req -new -key key.pem -out csr.pem
+       $ openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem 
+
+        rm csr.pem // optional   
+      
+
+
+================================== Other ways & References ============================
+
+1)     https://nodejs.org/en/knowledge/HTTP/servers/how-to-create-a-HTTPS-server/
+
+
+2)
+    do with sudo
+
+    https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-16-04
+
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+
+
+3) https://flaviocopes.com/express-https-self-signed-certificate/

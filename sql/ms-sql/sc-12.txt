@@ -1,0 +1,392 @@
+
+SELECT 
+		trevl_id ,
+		trevl_disability,
+		trevl_classification , 
+		trevl_status ,
+  		trevl_serviceuser SU_id,
+  		
+  		su_name  Service_User,
+  		su_baselineno  Baseline_No,
+  		su_patientno  Patient_No,
+  		
+  		trevl_monthofeval ,
+  		trevl_yearofeval ,
+  		trevl_createddt,
+  		trevl_score , 
+  		trevl_evaldt ,
+  		usr_name  Evaluated_by,
+  		blk_name Block
+		
+	  FROM  treatmentEvaluation_dtl ted 
+
+  left join serviceuser_mstr sm on sm.su_id =ted.trevl_serviceuser
+  left join User_mstr um on um.usr_id =ted.trevl_evalby
+  left join block_mstr bm on sm.su_block =bm.blk_id AND  sm.su_id =ted.trevl_serviceuser
+  
+  where  trevl_status in  ('Created','Completed','Submitted')   ---   Completed, Submitted	
+  		and ( 
+  				(trevl_monthofeval >='7'  and trevl_yearofeval='2019') or  
+  				( trevl_createddt >='2019-07-01 00:00:00' and trevl_createddt <'2020-01-01 00:00:00')
+  			)	
+      ORDER  By trevl_monthofeval 
+  
+  
+
+  ====================================
+
+  -------------- su status old-> new --------------------
+
+UPDATE  serviceuser_mstr 
+set su_status ='new_value' where su_status='old_value' 
+
+----Created	-> Created, Approved, Assigned For GA
+
+UPDATE  serviceuser_mstr 
+set su_status ='Created' where su_status in ('Created','Approved','Assigned For GA')
+
+----Waiting for approval	-> Waiting for approval, GA Submitted
+
+UPDATE  serviceuser_mstr 
+set su_status ='Waiting for approval' where su_status in ('Waiting for approval','GA Submitted')
+
+
+------Approved ->	GA Reviewed
+
+UPDATE  serviceuser_mstr 
+set su_status ='Approved' where su_status='GA Reviewed' 
+
+----Rejected ->	Rejected
+
+UPDATE  serviceuser_mstr 
+set su_status ='Rejected' where su_status='Rejected' 
+
+---- Assigned for Assessment ->	Assigned for Special Assessment
+
+UPDATE  serviceuser_mstr 
+set su_status ='Assigned for Assessment' where su_status='Assigned for Special Assessment' 
+
+------Assessment Completed ->	Assessment Completed
+
+UPDATE  serviceuser_mstr 
+set su_status ='Assessment Completed' where su_status='Assessment Completed' 
+
+---- Treatment Created	-> Treatment Created
+UPDATE  serviceuser_mstr 
+set su_status ='Treatment Created' where su_status='Treatment Created' 
+
+---- Treatment Assigned & Submitted for Approval ->	Treatment Resource Assigned, Waiting for Treatment plan Approval
+
+UPDATE  serviceuser_mstr 
+set su_status ='reatment Assigned & Submitted for Approval' where 
+su_status in ('Treatment Resource Assigned','Waiting for Treatment plan Approval') 
+
+------ Treatment Approved	-> Treatment Plan Approved
+
+UPDATE  serviceuser_mstr 
+set su_status ='Treatment Approved' where su_status='Treatment Plan Approved' 
+
+
+------ Treatment Completed	-> Actual Treatment Completed
+
+UPDATE  serviceuser_mstr 
+set su_status ='Treatment Completed' where su_status='Actual Treatment Completed' 
+
+------ Treatment Evaluation Assigned & Submitted ->	under evaluation
+
+UPDATE  serviceuser_mstr 
+set su_status ='Treatment Evaluation Assigned & Submitted' where su_status='under evaluation' 
+
+------ Treatment Rejected	-> Treatment plan Rejected
+
+UPDATE  serviceuser_mstr 
+set su_status ='Treatment Rejected' where su_status='Treatment plan Rejected' 
+
+------Treatment Evaluation Completed ->	Evaluation completed
+ 
+UPDATE  serviceuser_mstr 
+set su_status ='Treatment Evaluation Completed' where su_status='Evaluation completed'
+
+
+======================================
+
+SELECT 
+  tasK_id,
+  task_date ,
+  task_subject ,
+    task_status ,
+  owner.Usr_name as assigned_to ,
+  block.blk_name as Block  ,
+  panchayat.pct_name as Panxhayat  ,
+  village.village_name as Village,
+---  TODATETIMEOFFSET (task_travelin_starttime, '+05:30') task_travelin_starttime , task_travelin_start_loc ,
+  ---  task_travelin_starttime , task_travelin_start_loc ,
+   
+   dateadd(mi,330,task_travelin_starttime) task_travelin_starttime
+   task_travelin_endtime , task_travelin_end_loc ,
+   task_checkin_time ,task_checkin_loc ,
+    task_checkout_time , task_checkout_loc ,
+    task_travelout_starttime , task_travelout_start_loc , 
+    task_travelout_endtime , task_travelout_end_loc ,
+    task_work_time  
+    from task_mstr 
+
+    left join User_mstr owner on (  task_owner= owner .usr_id ) 
+    left join block_mstr block on (  task_block= block .blk_id )
+    left join panchayat_mstr panchayat  on (  task_panchayat= panchayat .pct_id )
+    left join village_mstr village on (  task_village= village .village_id )
+    
+    where MONTH (task_date)='4' and YEAR (task_date)=2020 and task_id='TAA0120200401090758'
+    
+    select TODATETIMEOFFSET(GETDATE(),'+02:00')
+
+    
+SELECT 
+SYSDATETIMEOFFSET()
+
+SELECT 
+SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')
+    
+
+    ===============================================
+
+     SELECT scr_id
+  ,scr_venue
+  ,dom_domain AS scr_domain
+  ,scr_date
+  ,scr_block
+  ,blk_name 
+  ,scr_panchayat
+  ,pct_name 
+  ,scr_village
+  ,village_name 
+  ,scr_status
+  ,ISNULL (Num_scrd_src_id,0) AS scr_nbr_children
+  ,creator.Usr_name AS scr_createdby
+  ,CONVERT(VARCHAR(20), scr_createddt, 113) AS scr_createddt
+  ,modifier.Usr_name AS scr_lastmodifiedby
+  ,CONVERT(VARCHAR(20), scr_lastmodifieddt, 113) AS scr_lastmodifieddt
+  ,scr_isActive
+  ,div_name AS scr_division
+FROM screening_mstr
+left join User_mstr creator ON (scr_createdby = creator.usr_id)  
+left join User_mstr modifier ON  (scr_lastmodifiedby = modifier.usr_id) 
+left join block_mstr  ON (scr_block = block_mstr.blk_id) 
+left join panchayat_mstr  ON (scr_panchayat = panchayat_mstr.pct_id) 
+left join village_mstr  ON (scr_village = village_mstr.village_id) 
+left join domain_mstr  ON (scr_domain = domain_mstr.dom_id)
+left join division_mstr  ON (scr_division = division_mstr.div_id)  
+left join (select scrd_src_id AS cnt_scrd_src_id ,count(scrd_src_id) 
+AS Num_scrd_src_id from screening_det where scrd_isActive='1'  group by scrd_src_id
+) 
+AS Child_Cnt ON Child_Cnt.cnt_scrd_src_id = scr_id
+where scr_isActive=1
+
+
+
+
+======================================
+SELECT DISTINCT su_id AS form_serviceuser,Split_id,Split_desc,su_bl_problem,fm_id,fm_formname,af_id,
+fm_problem,fm_profile,usr_profile,usr_revenue_block,su_block,
+af_formname AS form_type,su_category AS form_category,usr_id AS form_assignedto
+  FROM serviceuser_mstr CROSS APPLY fn_split_string(su_bl_problem,',')
+  INNER JOIN formmap_mstr ON (fm_problem = Split_desc)
+  INNER JOIN User_mstr ON usr_profile = fm_profile and usr_revenue_block = su_block
+  INNER JOIN assform_mstr ON fm_formname = af_id 
+ WHERE su_id = 'SUA7620200131114257'
+ 
+ 
+ SELECT  top 1 usr_id, fm_profile,Split_desc  as fm_treatment  from formmap_mstr 
+ CROSS APPLY fn_split_string(fm_treatment,',')
+  INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1' ---  and usr_revenue_block = 'B001' -- su_block
+where Split_desc='Speech' --- any treatment 
+ 
+ ==========================================
+
+SELECT  trevl_id ,trevl_disability, trevl_classification , trevl_createddt 
+  trevl_serviceuser ,trevl_monthofeval ,trevl_yearofeval ,trevl_score , trevl_evaldt , trevl_evalby  FROM  treatmentEvaluation_dtl 
+  where trevl_yearofeval in ('2020') and trevl_status in  'Submitted'   --- 
+        and trevl_monthofeval <='1' 
+        ORDER  By trevl_monthofeval 
+        
+ SELECT  COUNT(*)       from treatmentEvaluation_dtl ted 
+ where trevl_yearofeval in ('2020') and trevl_status ='Submitted'   --- Completed, Submitted
+        and trevl_monthofeval >='1' 
+        
+        
+ SELECT DISTINCT trevl_status from treatmentEvaluation_dtl ted     
+ 
+ 
+ select su_bl_bplno FROM serviceuser_mstr sm 
+ 
+ select um.usr_name from User_mstr um 
+ 
+ ------------------
+
+ const query = `
+    SELECT  top 1 usr_id, fm_profile,Split_desc  as fm_treatment  from formmap_mstr 
+    CROSS APPLY fn_split_string(fm_treatment,',')
+     INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1'  and usr_revenue_block = '${block}' 
+   where Split_desc='${treatmentClassification}' 
+   
+   
+   --- service user problem specific specialists in his block
+   SELECT  usr_id,usr_revenue_block, fm_profile, fm_problem  from formmap_mstr 
+    INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1'  and usr_revenue_block = 'B014' 
+    where fm_problem in ('Physical Problem','Cognition Problem','Speech Problem','Vision Problem','Behavioural Problem')
+    
+       --- service user problem specific specialists in his block
+       SELECT  DISTINCT usr_id,usr_username,usr_profile  from formmap_mstr 
+      right join  fn_split_string('Physical Problem,Cognition Problem,Speech Problem,Vision Problem,Functional Problem',',') on Split_desc=fm_problem
+    INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1'  and usr_revenue_block = 'BLA12210520123038031' 
+    ---where fm_problem in ('Physical Problem','Cognition Problem','Speech Problem','Vision Problem','Behavioural Problem')
+    
+    
+    SELECT  su_block,su_status,su_bl_problem  from serviceuser_mstr  where su_id ='SUA78010620132211205'
+
+
+    =================================
+
+
+SELECT  DISTINCT value   from formmap_mstr 
+    CROSS APPLY STRING_SPLIT(fm_treatment,',')
+    order by value
+    
+    
+    =====================================================
+
+    Evaluations with no questions
+    -----------------------------
+    
+    SELECT  evl_id, qs_count  from (
+    
+    SELECT trevl_id evl_id, COUNT(trscr_treval) qs_count  from treatmentEvaluation_dtl 
+    left join treatmentevaluationscore_dtl  on trscr_treval =trevl_id   
+    GROUP  by trevl_id
+    
+    ) as res
+    where qs_count='0'
+    
+
+
+ ====================================================
+
+
+ 
+    
+    
+    SELECT  * from treatmentEvaluation_dtl 
+    
+    join 
+    
+    (
+    
+				    SELECT  evl_id, qs_count  from (
+				    
+				    SELECT trevl_id evl_id, COUNT(trscr_treval) qs_count  from treatmentEvaluation_dtl 
+				    left join treatmentevaluationscore_dtl  on trscr_treval =trevl_id   
+				    GROUP  by trevl_id
+				    
+				    ) as res
+				    where qs_count='0'
+    
+    )  as evl on evl.evl_id=trevl_id
+
+
+    ===================================   
+
+
+    Update with join query
+
+
+
+update treatmentEvaluation_dtl  set trevl_isActive ='0'
+
+from treatmentEvaluation_dtl
+
+JOIN (
+
+
+
+    SELECT  evl_id, qs_count  from (
+				    
+				    SELECT trevl_id evl_id, trevl_treatment  treatment ,COUNT(trscr_treval) qs_count  from treatmentEvaluation_dtl 
+				    left join treatmentevaluationscore_dtl  on trscr_treval =trevl_id   
+				    where trevl_id='TEA68181120121149746'
+				    GROUP  by trevl_id,trevl_treatment
+				    
+				    ) as res
+				    where qs_count='0'
+
+
+	 ) as evl on evl.evl_id=trevl_id
+	 
+	 where qs_count='0'
+
+
+   =================================
+
+UPDATE  atp_mstr  set atp_treatment =trAtp.tr_id 
+	
+	from atp_mstr atp
+	
+	join (
+	
+			SELECT  tr_id, tr_atp , atp_id , atp_treatment
+			from treatment_mstr  
+				join   atp_mstr  on  atp_id = tr_atp 
+				where atp_treatment is NULL  
+
+	) as  trAtp on  atp.atp_id = trAtp.tr_atp 
+	
+	
+	---------------------------------------------------
+	
+	UPDATE  task_mstr  set task_treatment =trAtpTask.tr_id
+	
+	from task_mstr task
+	
+	join 
+	
+	
+	(
+	
+	
+			
+			SELECT  tr_id, tr_atp , atp_id , atp_treatment, task_id  , task_atp,task_treatment
+			from treatment_mstr  
+				join   atp_mstr  on  atp_id = tr_atp 
+				join task_mstr  on task_atp =atp_id
+				
+				where task_treatment is NULL 
+				
+	
+	) as trAtpTask on trAtpTask.atp_id= task.task_atp
+	
+    
+    
+  
+---------------------------------
+
+
+ UPDATE  treatmentEvaluation_dtl  
+ 					set
+ 					    trevl_dimscore =FORMAT (( scores.sum/(scores.count*cast ( SUBSTRING(scores.trscr_scale,3,1 ) as int   )) )*100,'N','en-us')+'%',
+ 					    trevl_score =FORMAT  (scores.sum/(scores.count*cast ( SUBSTRING(scores.trscr_scale,3,1 ) as int   )), 'N','en-us'),
+ 					    trevl_lastmodifieddt='2020-12-15 15:15:15'
+ from treatmentEvaluation_dtl 
+ 
+ join (
+SELECT  COUNT(trscr_id ) count, sum(trscr_evalscore ) sum, trscr_treval , trscr_scale  from treatmentevaluationscore_dtl  
+where trscr_treval ='a090I00001IV8aWQAT'
+GROUP  BY trscr_treval,trscr_scale
+) as scores on scores.trscr_treval=trevl_id
+
+ where trevl_id='a090I00001IV8aWQAT'
+ 
+
+ -----------------------------
+
+ UPDATE  serviceuser_mstr  set su_bl_typeofslfhlpgrp = replace(su_bl_typeofslfhlpgrp,', ',','), su_lastmodifieddt ='2020-12-16 16:16:16'
+where su_bl_typeofslfhlpgrp like '%, %'
+ 

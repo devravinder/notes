@@ -1,0 +1,97 @@
+
+============== AWS CLI setup ============
+
+-> install aws cli
+   then
+   $ aws configure
+       //  give all credentials
+
+-----------------------------
+
+============== Tutorials Yet To Try ============
+
+
+
+============== Tutorials Implemented ============
+
+
+
+Tutorial
+
+serverless: https://s3.console.aws.amazon.com/s3/buckets/wildrydes-us-east-1/WebApplication/?region=us-east-1&tab=overview
+
+Static Site Hosting: https://awstip.com/aws-static-website-hosting-with-s3-route-53-cloud-front-through-a-custom-domain-5dbcc4a6c27
+
+VPC: https://awstip.com/aws-vpc-creation-f3e456b3f395
+
+Micro services:
+        : https://aws.amazon.com/getting-started/hands-on/break-monolith-app-microservices-ecs-docker-ec2/module-two/
+        : https://medium.com/swlh/microservices-with-aws-ecs-58dd5006ab2e
+        : https://ecsworkshop.com/microservices/nodejs/
+        
+
+CI-CD
+     : https://bitbucket.org/bitbucketpipelines/
+     : https://support.atlassian.com/bitbucket-cloud/docs/deploy-to-amazon-ecs/
+     : https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
+
+
+microservices & ECS & ci-cd & Loadbalancer: 
+    : https://www.bogotobogo.com/DevOps/AWS/aws-ELB-ALB-Application-Load-Balancer-ECS.php
+    : https://dev.to/olaoluwa98/easy-deployment-setup-with-bitbucket-and-aws-ecs-46ac
+    : https://www.youtube.com/watch?v=lCWy1sXU79E
+
+
+============== Technologies ============
+
+---
+Code Commit ( GIT )
+Amplify
+Cognito
+DynamoDB
+Lambda
+API Gateway
+---
+S3
+CloudFront
+Route53 - CloudMap
+---
+ECS
+ECR
+EC2
+---
+EBC volumes
+
+---
+Loadbalance
+
+
+---
+CloudWatch
+
+    
+---
+    VPC
+    Security Groups
+    IAM
+        Policy
+        Roles
+
+
+
+============== Policy Generator =============
+
+https://awspolicygen.s3.amazonaws.com/policygen.html
+
+
+=============== Errors ===============
+ Error: Cannot perform an interactive login from a non TTY device
+
+ don't use : aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 759921771567.dkr.ecr.ap-south-1.amazonaws.com
+ use: docker login -u AWS -p $(aws ecr get-login-password --region <ap-south-1>) 759921771567.dkr.ecr.ap-south-1.amazonaws.com
+ eg: docker login -u AWS -p $(aws ecr get-login-password --region ap-south-1) 759921771567.dkr.ecr.ap-south-1.amazonaws.com
+
+
+
+
+

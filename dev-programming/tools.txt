@@ -1,0 +1,43 @@
+
+
+================== UI Design Tools =================
+
+Figma
+-------------------
+https://blog.prototypr.io/figma-tips-tricks-superpower-your-workflow-%EF%B8%8F-d03f418d1db3
+
+https://learnux.io/course/figma?autoplay=1
+
+
+
+
+
+===================== Accessing localhost from public ip address using ngrok ==================
+   ngrok
+   localtunnel ( npm package )
+
+
+
+
+
+==================== Random image ======================
+export const imagePlaceholder = (id = 1) => `https://picsum.photos/200/300?random=${id}'`
+https://picsum.photos/500/300
+https://randomuser.me/api/portraits/men/34.jpg
+https://randomuser.me/api/portraits/women/34.jpg
+        
+
+
+
+================  Youtube Videos Downloading ===============
+youtube-dl
+ -> if it gives 403 error,
+   remove cache
+   $ youtube-dl --rm-cache-dir
+
+   then try
+
+
+
+================ file sharing ========
+file sharing: https://filetransfer.io/

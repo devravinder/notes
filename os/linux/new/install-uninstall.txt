@@ -1,0 +1,36 @@
+Ubuntu Installation & System Setup
+====================================
+1. install Ubuntu from official website & follow stpes
+2. install required softwares
+3. add alias
+4. ganerate ssh ( and link with git )
+
+
+
+
+Installation Of Softwares
+============================
+
+1. for .deb files
+     
+     $ sudo apt install ./some.deb
+
+2. zip file ( tar.gz) 
+   
+    i. unpack
+      $ tar -zxvf file.tar.gz
+
+    ii. read README  ( for some extra info )
+        Most of the times ( it may be different )
+        $ ./configure
+        $ make
+        $ sudo make install
+
+
+    iii. if the setp 2 is not suitable or not working
+       
+
+
+
+Uninstallation
+==============

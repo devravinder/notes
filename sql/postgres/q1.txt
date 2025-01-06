@@ -1,0 +1,12 @@
+
+
+============== update from select query
+
+
+update "subscriptionDetails"  set  status ='active'  --where "subscriptionDetails"."tenantId" =53
+
+ from  (
+    select t."id" from tenants  t where t."senderEmail" in ('imprezzdev+ravinder@gmail.com' )
+  ) as "t" where  "t"."id" = "tenantId"
+  
+ 

@@ -1,0 +1,23 @@
+
+1) installation
+   
+   $ curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+   $ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
+
+   $ sudo apt-get update
+   $ sudo apt-get install redis
+
+
+
+   --- it'll try to start automatically, and fails 
+       then,
+    
+    $ service redis-server start  # enter system user password 
+    $ service redis-server status
+
+
+2)  Usage with CLI
+
+   $ redis-cli
+

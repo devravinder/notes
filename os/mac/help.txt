@@ -1,0 +1,19 @@
+
+
+Short keys
+
+ screen shot            -       command + shift + 4    // specific part
+                        -       command + shift + 3    // full screen
+
+
+Force quit              -       command + option + esc  // ctrl + alt + delete
+Switch b/w apps         -       cmd + tab
+Dictionary/ lookup      -       cmd + ctrl + D
+
+
+
+#############################################################
+
+---- running port & Kill process
+     $  netstat -vanp tcp | grep 3000
+     $ kill -9 PID

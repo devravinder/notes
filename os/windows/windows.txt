@@ -1,0 +1,117 @@
+
+
+######################### git in windows #####################################
+ download git bash
+ 
+ ssh-key gen
+ $ ssh-keygen -t rsa
+ 
+ enter phrase (remember it)
+  
+  it'll display where the files are created 
+     open with editor (notepad )
+      notepad C:\Users\Durvah01/.ssh/id_rsa.pub.
+      
+      
+      copy the file content and paste in git provider website ( in ssh keys )
+      
+      
+      and try to pull the git repo ..then it'll ask phrase...enter the phrase and validate 
+      
+      
+  ############################### connecting linux with putty ##############################
+  
+  download linux
+  get .pem file from ( linux ce2 from aws )
+  
+  1) convert .pem to .ppk
+  search for puttyGen in all programs
+  
+  load the file > save private key > without phrase (yes)
+   close puttyGen
+   
+  2) go to putty
+      puttyConfiguration
+         category
+           > session
+                  user@host
+                   select ssh
+           >ssh 
+                >auth
+                    browse ppk file > open
+                       
+                       
+                       
+                       
+###################################### win-scp to linux ############################
+        
+        open win-scp
+           new-site
+              enter host    ( default port 22)
+              enter username    ( no password)
+               advance settings> authentication>ssh   browse ppk file  ( before that convert pem file to ppk file)
+    
+
+###################################### Dual installation (Ubuntu) ############################
+
+  @R   -> right click
+
+  0) before installing ubuntu, things todo in windows
+     1. disable RST  ( if enabled ) ..we can do it from bios options also
+     2. disable BitLocker (if enabled )..we can do it only from windows
+
+  1) make free disk space for ubuntu
+   thisPc @R  mange > manage disl space
+        create partition -> the  delete partion ( make it free space)
+
+  2) boot linux from bootable device
+       ( 
+          note:- bootable device is different from bootable files
+          bottable device gives automatic install options,where bootable files just loads
+          so take care while buring device into bootable device
+        )
+  3)  installing 
+      a) install along with windows  ( if option comes prefer this)
+      b) choose ' sommething else '
+
+   if(b-> option follow the remaing steps)
+ 
+  4) partion
+     a) select the freespace  ( which we made  by deleting disk partion)
+     b) click on (+)  
+           then give 
+              i)   size: 2* RAM size
+                   use as: sweap area
+
+         click on (+)  
+              ii)  size remain all
+                   use as : Ext4 journling file system
+                   Mount point: /
+
+  5) click on install
+
+
+
+###################################### closing Process in windows ############################
+
+   --> to find port no/ processing
+     $ netstat -a -n -o | findstr 3000
+
+                  // get PID no
+
+     $ taskkill /PID 3000
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+

@@ -1,0 +1,24 @@
+
+
+SELECT  DISTINCT value   from formmap_mstr 
+    CROSS APPLY STRING_SPLIT(fm_treatment,',')
+
+
+   const query = `
+    SELECT  top 1 usr_id, fm_profile,Split_desc  as fm_treatment  from formmap_mstr 
+    CROSS APPLY fn_split_string(fm_treatment,',')
+     INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1'  and usr_revenue_block = '${block}' 
+   where Split_desc='${treatmentClassification}' 
+   
+   
+   --- service user problem specific specialists in his block
+   SELECT  usr_id,usr_revenue_block, fm_profile, fm_problem  from formmap_mstr 
+    INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1'  and usr_revenue_block = 'B014' 
+    where fm_problem in ('Physical Problem','Cognition Problem','Speech Problem','Vision Problem','Behavioural Problem')
+    
+       --- service user problem specific specialists in his block
+       SELECT  usr_id,usr_revenue_block, fm_profile, fm_problem  from formmap_mstr 
+      right join  fn_split_string('Physical Problem,Cognition Problem,Speech Problem,Vision Problem,Behavioural Problem',',') on Split_desc=fm_problem
+    INNER JOIN User_mstr ON usr_profile = fm_profile  and usr_isActive ='1'  and usr_revenue_block = 'B014' 
+    ---where fm_problem in ('Physical Problem','Cognition Problem','Speech Problem','Vision Problem','Behavioural Problem')
+    

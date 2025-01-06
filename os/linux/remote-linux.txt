@@ -1,0 +1,255 @@
+
+
+ ------------------------  to enable ssh server or enabling sshd ( ssh server / ssh deamon) -----
+
+ ------------------------ to make our system ssh server --------
+ https://likegeeks.com/ssh-connection-refused/
+
+  $ sudo apt-get install openssh-server
+
+   to check the status 
+     $ service sshd status  // we can enable / disable auto start
+
+
+    ------------ create ssh pri key & convert to .pem
+
+      $ ssh-keygen -t rsa -b 2048
+
+      $ openssl rsa -in trb -outform pem > trb.pem
+
+   ------------------------   to enable password less authentication --- add the client ssh.pub file in know hosts
+
+
+               vim /etc/ssh/sshd_config
+
+            Change PasswordAuthentication yes to PasswordAuthentication no. It will be most likely line number 79 in sshd_config file.
+
+            systemctl restart sshd
+
+
+
+
+
+
+
+============================================
+
+
+
+
+	ssh -i cent_1.pem root@ec2-13-235-27-223.ap-south-1.compute.amazonaws.com     // dev
+
+	(ssh -i ubuntu-ec2.pem ubuntu@ec2-184-72-101-49.compute-1.amazonaws.com)
+
+	ssh -i cent_2.pem root@3.6.180.0				// demo & prod
+
+
+for git
+  (ref https://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-7-x-6-x)
+
+
+	yum install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm
+	yum install git
+	git --version
+	yum install nano
+
+
+
+file transfer  
+	
+	scp <OPTIONS> <SOURCE_FILE_OR_DIR> <TARGET_FILE_OR_DIR>	
+
+    1) local to remote 
+	scp <file_path> <user>@<remote_host>:<remote_dir>
+    scp -i Linux_Centos12012020.pem env.js root@ec2-13-235-27-223.ap-south-1.compute.amazonaws.com:/root/try
+    (scp -i ubuntu-ec2.pem env.js ubuntu@ec2-184-72-101-49.compute-1.amazonaws.com:~/try)
+
+    2) remote to local
+	scp <user>@<remote_host>:<remote_file_path> <local_dir>
+    scp -i Linux_Centos12012020.pem  root@ec2-13-235-27-223.ap-south-1.compute.amazonaws.com:/root/try  ~/Desktop
+
+   scp -i cent_2.pem root@3.6.180.0:/root/try/demo/mvbri-backend/content/service-user/profile-images/sue001080220113705267.jpeg /home/ravinder/Desktop
+
+
+
+to find
+   find / -name "hello.js"
+
+
+
+listening process
+   lsof -i -P -n | grep LISTEN
+
+
+force delete
+   rm -fr folder
+
+------------------------------time zone
+to see time zone
+   date
+
+to sell all time zones 
+    timedatectl list-timezones | grep -i Asia
+
+to set(change) time zone
+    ref https://forum.boltiot.com/t/convert-the-utc-to-ist-in-linux/2127 
+
+  1)   timedatectl list-timezones | grep -i Asia       			## see all available
+  2)   sudo unlink /etc/localtime					## delete the current one
+  3)   sudo ln -s /usr/share/zoneinfo/[zone/timezone] /etc/localtime    ## set time zone
+        eg: sudo ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+  4)   date								## check
+
+
+
+------------------------------------------------------------------
+adding ports( ec2 )
+   network & security group
+   inbounds > edit rure > add > Custom TCP & give port
+   
+ network interface
+
+
+#################################################################### AWS new set up #####################################################
+
+1) choose ubuntu server
+2) security group ( it'll create a new one ...we can TCP protocalls also ...or later(4) )
+3) launch
+
+to connect  ssh -i ubuntu-ec2.pem ubuntu@ec2-35-171-153-96.compute-1.amazonaws.com
+   ( type 'yes' in cmd when ask)
+
+  install node 
+   curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+   sudo apt install nodejs
+
+  install git
+    sudo apt install git
+  
+  clone git repos
+
+  transfer files ( from another new cmd )
+   scp -i ubuntu-ec2.pem env.js ubuntu@ec2-35-171-153-96.compute-1.amazonaws.com:~
+
+4) adding PORTs for protocalls 
+   on instance... click on security group (or)  newtwork&security > security group > inbounds > edit >add ...choose custom TCP
+   - enbale both front-end and back-end ports
+
+5) start servers....do configuration properly
+
+
+
+#################################################################### connecting with FileZilla #####################################################
+
+1) with .pem file 
+  
+	i) edit>settings>SFTP>add file    (add .pem ) ( we can add many files)
+	ii) file>site manager > new site >   
+ 					 Protocol ->  SFTP
+					 Port    ->  (blank)  (or 22 )
+					 userName ->   give
+                                         password -> (blank)     it'll connect automatically using proper .pem file
+					
+
+
+################################################################### SSH ####################################
+
+ 1) to generate 
+   $ ssh-keygen         // in local system
+       
+        // use default file location to save file  // we can store in any folder
+           // in general 
+                ./username/.ssh/id_rsa.         <--- private key file
+                ./username/.ssh/id_rsa.pub      <--- public key file
+           // use strong passphrase     
+         
+
+2) to add ssh-public key in remote server 
+
+
+   $ cat /username/.ssh/id_rsa.pub | ssh -i pem_file.pem user@ec2-instance.com "cat >> .ssh/authorized_keys"
+
+         or we can add manually also
+           -------------------
+            for that copy public key
+            $ cat /username/.ssh/id_rsa.pub
+
+            now login to remote 
+                  go to .ssh
+                  nano authorized_keys
+                     now paste the public key in new line
+
+3) if we gererate morethan one ssh keys 
+   by default it'll take the default one or added ssh-keys
+   ----------------
+     to add ssh-key
+     -------------
+
+     $ ssh-add  path_to_ssh
+  
+    eg: $ ssh-add  ~/.ssh/id_rsa_do 
+
+    // while adding ssh if error comes 
+        'couldn't open connection to agent'
+
+        then restart ssh-agent
+
+        $ eval `ssh-agent -s`
+
+
+        //   ssh-agent -s in back-ticks
+
+
+4) if asks passphrase every time ---> to avoid this
+
+   $ ssh-add
+
+
+   // if error comes-->  Could not open a connection to your authentication agent.
+
+   $ eval $(ssh-agent)
+
+
+################################### Connecting EC2/ remote linux with pem file  ####################################
+
+   click on new connection symbol
+
+   Name: --> give any
+   protocall : SSH
+   Server: ip_address
+   userName: ubuntu/root
+   Authentication Type: SSH identity file
+   Identity File [check the box]: select the file
+
+         connect
+    
+####################################################################################################
+################################### Connect Linux from Windows  ####################################
+####################################################################################################
+
+  1) using xrdp
+
+     $ sudo apt install xrdp
+
+ 2) enable auto start ( optional )
+
+   $ sudo systemctl enable
+       (or)
+   $ sudo systemctl enable --now xrdp        
+
+ 3) allow port 
+  $ sudo ufw allow 3389
+
+ 4) add user to ssl-cert group ( only these users can access xrdp )
+   $ adduser ravinder ssl-cert
+
+5)  restart xrdp 
+   $ systemctl restart xrdp
+
+ Note:- Only one user login session is allowed ( i.e We can't use system with same user remotely & locally)
+     so
+      - create a new user for rdp-connection and use
+      - logout the user locally 
+
+ Issue: if blank screen appeares on Windows on login to ubuntu/linux ..means same user is accessing the system
+          - need to logout ony user ( i.e locally )  

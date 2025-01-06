@@ -1,0 +1,290 @@
+
+basic & revers proxy :-
+ref https://gist.github.com/bradtraversy/cd90d1ed3c462fe3bddd11bf8953a896
+
+multiple domains:-
+ref https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-14-04-lts
+
+SSL:-
+a) 
+https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
+ 
+b) https://docs.nginx.com/nginx/admin-guide/security-controls/terminating-ssl-http/ 
+
+React App on nginx:-
+https://www.digitalocean.com/community/tutorials/how-to-deploy-a-react-application-with-nginx-on-ubuntu-20-04
+
+
+SSL:- .crt files combining
+c) https://in.godaddy.com/help/nginx-on-centos-7-install-a-certificate-27192
+
+======================================================= install - uninstall ===============================
+  install & uninstall & re-install
+    ---- install
+    $ apt-get install nginx  
+
+    --- un-install
+    $ apt-get remove --purge nginx nginx-full nginx-common
+
+
+ 
+======================== Imps ========================
+ *) always use full path while creating the links
+
+
+-----------------------------------------
+    $ nginx -t   // to test 
+    $ service nginx status | start | restart | stop | reload
+
+    $ nginx -t                                                # to test all configuration files
+    $ nginx -t -c /etc/nginx/sites-available/domain-two.com   # to test custom configuration
+
+
+
+
+
+  =============================== Error/ Issue: if already apache2 is running (or) error comes ====
+        --------------------- some  how stop the apache2 -------------
+       (or)
+       then
+           sudo fuser -k 80/tcp
+
+          sudo fuser -k 443/tcp
+
+          sudo service nginx restart
+
+======================================= Life cycles ==========================
+
+1) first nginx loads the (link)files that are in /etc/nginx/sites-eanbled folder
+2) the ablve link files are created from the configuration files that are in /etc/nginx/sites-available
+
+
+#####################################################################################################################
+=========================== default app ======================================
+
+ 1) static files
+    /var/www/html
+ 2) configuration file
+    /etc/nginx/sites-available
+ 3) link file
+    /etc/nginx/sites-eanbled
+
+ Note:- we can modify default app files and we can use for any domain name    
+
+        
+
+
+
+#####################################################################################################################
+###################################### custom app deployment  #######################################################
+#####################################################################################################################
+
+Info:- this is usefull when we want to serve diffrent static files( html ) for diffrent domain name
+     - we can use any number of domains 
+     - on request 
+               all the domain names with default port ( 80 /443 ) will serve diffrent app( index.html )
+              i.e:-
+               http://ravinder.com   and http://ravinder.reddy.com  will serev diffrent apps ( index.html )
+                   
+
+
+Steps:-
+   1) create static file folder ( if static file exists )
+   2) create configuration file & link file
+   3) start/restart the nginx
+
+
+
+eg:- domain name= ravinder.com 
+
+1) create static files folder ( only if static files exists )
+     
+      /var/www/ravinder.com/html     ## ravinder.com domain  ( need to create this folder)
+
+   - then move all files into html folder mainly index.html (entry file)
+   - if it is react app...build the app and then move build folder content to html folder
+   - (or) if we want to keep static files in any other folder...we can keep, but need to point the folder properly
+
+2) create configuration file under /etc/nginx/sites-available
+    
+
+
+       /etc/nginx/sites-available/ravinder.com   ## create this file
+
+            ###  add the below content in that file
+
+
+            server {
+              listen 80;
+              listen [::]:80;
+
+              # SSL configuration
+              listen 443 ssl default_server;   # remove default_server if this is not default
+              listen [::]:443 ssl default_server;
+
+
+              ssl_certificate     /etc/nginx/ssl_files/server.crt;
+              ssl_certificate_key /etc/nginx/ssl_files/server.key;
+              ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+              ssl_ciphers         HIGH:!aNULL:!MD5;
+
+
+            # if static files exists
+              root /var/www/ravinder.com/html;
+            # root /home/ravinder/Drive/work-spaces/office/durvah/mvbri-client/build
+
+
+
+
+              index index.html index.htm index.nginx-debian.html;
+
+              server_name ravinder.com www.ravinder.com;
+
+              location /api/ {
+
+                  # /api/ will be redirected to backed app
+
+                    proxy_pass https://localhost:5443; #whatever port your app runs on
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection 'upgrade';
+                    proxy_set_header Host $host;
+                    proxy_cache_bypass $http_upgrade;
+
+              }
+              location / {
+                
+                    # other than /api serve index.html    
+                    try_files $uri /index.html;
+
+              }
+
+            }
+
+
+
+3) generate link files under /etc/nginx/sites-eanbled
+
+    use the below commond to generate the link file
+     $ ln -sf /etc/nginx/sites-available/ravinder.com /etc/nginx/sites-eanbled
+
+  
+
+
+4) check the configuration files 
+   $ nginx -t  # checks all the eanbled files ( i.e files under /etc/nginx/sites-eanbled  )     
+               # use this only for all
+    
+
+   $ nginx -t -c /etc/nginx/sites-available/ravinder.com   # to check specific file
+
+
+5) reload & restart
+
+  $ service nginx reload
+  $ service nginx restart
+
+
+#####################################################################################################################
+##############################   Recat app & backend api configuration  #############################################
+#####################################################################################################################
+
+
+              server {
+                listen 80;
+                listen [::]:80;
+
+                # SSL configuration
+                #
+                listen 443 ssl default_server;
+                listen [::]:443 ssl default_server;
+                ssl_certificate     /etc/nginx/ssl_files/server.crt;
+                ssl_certificate_key /etc/nginx/ssl_files/server.key;
+                ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+                ssl_ciphers         HIGH:!aNULL:!MD5;
+
+
+                root /var/www/ravinder.com/html;  ## move react app build folder content to this html folder
+              # root /home/ravinder/Drive/work-spaces/office/durvah/mvbri-client/build
+
+                index index.html index.htm index.nginx-debian.html;
+
+                server_name ravinder.com www.ravinder.com;
+
+                location /api/ {
+                  # First attempt to serve request as file, then
+                  # as directory, then fall back to displaying a 404.
+                  # try_files $uri $uri/ =404;
+
+                      proxy_pass https://localhost:5443; #whatever port your app runs on
+                      proxy_http_version 1.1;
+                      proxy_set_header Upgrade $http_upgrade;
+                      proxy_set_header Connection 'upgrade';
+                      proxy_set_header Host $host;
+                      proxy_cache_bypass $http_upgrade;
+
+                }
+                  location / {
+                            try_files $uri /index.html;
+
+                }
+
+              }
+
+
+#####################################################################################################################
+
+====================================== reverse proxy for both client & server ===========================
+
+eg:- node & react 
+
+edit -> /etc/nginx/sites-available/default
+
+
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        server_name ravinder.com www.ravinder.com;
+
+
+        location /api/ {
+            # First attempt to serve request as file, then
+            # as directory, then fall back to displaying a 404.
+            # try_files $uri $uri/ =404;
+
+            proxy_pass https://localhost:5443; #whatever port your app runs on
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+
+                }
+
+      location / {
+             
+        proxy_pass http://localhost:8080; #whatever port your app runs on
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+
+        error_page 404 500 502 503 504 = @fallback;
+
+
+        }
+
+
+     location @fallback {
+        proxy_pass http://localhost:8080;  # this is to fix 502: Bad gate way error on react-app restart in dev-mode
+    }
+
+}
+
+
+
+

@@ -1,0 +1,64 @@
+
+Usefull Softwares 
+#################
+ software usages are documented in 'software-usages'
+
+
+Default Softwares
+====================
+
+    1. update-alternatives
+        to use multiple versions of same software
+
+    2. whereis
+        to find software installation location
+
+    3. man
+        to see manula page ( usage docs ) of a software 
+
+    4. ln
+        to create symlink to a file
+
+    5. wget
+        to download something
+    6. tar
+        to unzip ( to extraxt files )
+   
+
+
+
+External Softwares
+=====================
+  Chrome
+  Brave
+  git
+  sdkman ( for java )
+  nvm ( for node & npm )
+  pnpm ( install with npm )
+  bun ( install with pnpm )
+  vsc
+  intellij ( also add desktop entry )
+  postman ( also add desktop entry )
+  docker
+  dbeaver
+  mongodb-compass 
+  remmina ( RDP client )
+  Taskfile ( https://taskfile.dev/installation/ )
+  go 
+        - add bin path to /etc/environment 
+  Kind  
+       - to run container clusters loally ( like K8 ) [ same as minikube]
+       - this is a go package ( will be installed in go packages bin folder )
+       - add this also to /etc/environment
+
+  Kubectl - to manage kubernates clusters
+
+  Lens ( kontena-lens )  
+       - install using snap store 
+
+  tmux 
+      - terminal multiplexer
+      - for multiple terminal sessions to run in background
+ 
+  redis-tools   ( optional )
+      - redis cli

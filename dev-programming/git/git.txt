@@ -1,0 +1,18 @@
+====================== partial cloning ===========================================
+
+
+$ git clone -n --depth=1 --filter=tree:0 url
+$ cd folder
+$ git git sparse-checkout set --no-cone sub_folder
+$ git checkout
+
+====
+
+git clone -n --depth=1 --filter=tree:0 https://github.com/eugenp/tutorials.git
+
+git sparse-checkout set --no-cone spring-reactive-modules/spring-reactive-oauth
+
+git checkout
+
+
+

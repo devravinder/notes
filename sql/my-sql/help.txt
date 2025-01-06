@@ -1,0 +1,87 @@
+
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04
+
+
+$ sudo apt install mysql-server
+
+
+$ sudo mysql_secure_installation    // optional for additional settings
+
+
+
+===================================================
+
+------------------ to see database users-------------------
+
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+
+
+--------------allow to connect with clinent app -------------
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+FLUSH PRIVILEGES;
+
+
+-------------allow to connect only from cmd -----------------
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket BY 'password';
+
+
+
+
+
+============================ Controlling ===========
+
+
+  //-------------------- bsic commands for postgresql
+
+  $ service mysql   // gives basic avalable commands
+
+  $ service mysql start|stop|restart|reload|force-reload|status
+
+  $ systemctl disable mysql  // disable auto start on boot
+
+  $ systemctl enable mysql   // enable auto start on boot
+
+
+=============================== Login==============
+
+$ mysql -u root -p 
+    // enter password on promt
+
+
+
+=============== Backup & Restore =========================
+
+------------------- backup----------------
+$ mysqldump -u root -p db_instance > backup.sql
+          // enter password on promt
+
+-- different server
+$ mysqldump -h 127.0.0.1 -u root -p db_instance > backup.sql
+
+
+------------------- Restore ----------------
+ first create the  db_instance manually
+
+$ mysql -u root -p durvah_portal < backup.sql
+
+---  different server
+$ mysql -h 127.0.0.1 -u root -p durvah_portal < backup.sql
+
+
+
+
+==================================================
+
+allowing remote connection
+
+https://phoenixnap.com/kb/mysql-remote-connection
+
+
+
+// Dev database variables
+	process.env.DB_INSTANCE = "durvah_portal"
+	process.env.DB_USER = "durvah_intra"
+	process.env.DB_PWD = "IntRAdu#rv@h@pR0$20"
+	process.env.DB_DIALECT = "mysql"

@@ -1,0 +1,36 @@
+SELECT usr_id
+      ,usr_username
+      ,usr_firstname
+      ,usr_lastname
+      ,usr_profile      
+      ,usr_name      
+      ,usr_email      
+      ,usr_country
+	  ,ctry_country AS usr_country_name
+      ,usr_city      
+      ,usr_state
+	  ,st_state AS usr_state_name      
+      ,usr_role 
+	  ,role_role AS usr_role_name
+      ,usr_division
+	  ,div_name AS usr_division_name
+      ,usr_employee_id
+      ,usr_revenue_block
+	  ,blk_name AS usr_revenue_block_name
+      ,usr_panchayat
+	  ,pct_name AS usr_panchayat_name
+      ,usr_village 
+	  ,village_name AS usr_village_name
+      ,usr_domain 
+	  ,dom_domain AS usr_domain_name 
+  FROM User_mstr
+  left join profile_mstr pm  ON (usr_profile =pm. profile_ID) --- alias on join
+  left join domain_mstr  ON (usr_domain = dom_id) 
+  left join block_mstr  ON (usr_revenue_block = blk_id) 
+  left join division_mstr  ON (usr_division = div_id) 
+  left join village_mstr  ON (usr_village = village_id) 
+  left join panchayat_mstr  ON (usr_panchayat = pct_id)   
+  left join country_mstr  ON (usr_country = ctry_id) 
+  left join state_mstr  ON (usr_state = st_id) 
+  left join role_mstr  ON (usr_role = role_id) 
+  where usr_id='0050I000007eRCvQAM'

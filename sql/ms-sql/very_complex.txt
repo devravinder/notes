@@ -1,0 +1,237 @@
+
+
+--- get all the classifications that need to chage score
+SELECT  DISTINCT  trevl_classification  from treatmentEvaluation_dtl  
+where trevl_classification not in ('Physiotherapy','Occupational Therapy','Speech') and trevl_id like '%TEA%'
+
+--- Physiotherapy
+--- Occupational Therapy
+--- Speech
+
+
+SELECT  trevl_id ,  trevl_classification,trevl_status,trevl_score 
+ , ISNULL (score_records_count,0) as score_records_count  , ((trevl_score*100)/score_records_count) as score_percentage
+from treatmentEvaluation_dtl  
+
+left join ( 
+				select    trscr_treval,  count(trscr_treval) as score_records_count  from treatmentevaluationscore_dtl   
+					where trscr_isActive ='1'
+				  GROUP BY trscr_treval
+				)   as score_records
+				on score_records.trscr_treval =trevl_id
+where 
+		trevl_classification not in ('Physiotherapy','Occupational Therapy','Speech') 
+		and trevl_id like '%TEA%'  -- only new records
+		and trevl_status='Completed'
+
+
+		
+		
+----- scale--------------------------------------------------
+
+		
+-------------- selcting the evaluation based on conditions
+
+				SELECT  DISTINCT  trevl_classification  from treatmentEvaluation_dtl  
+where trevl_classification not in ('Physiotherapy','Occupational Therapy','Speech') 
+and trevl_id like '%TEA%'
+and trevl_status='Completed'
+
+		
+	--- selcting medical chart max_scale	
+		SELECT DISTINCT  mc_classification ,mc_scale , Split_id, Split_desc  
+		from medicalchart_mstr 
+		cross apply   fn_split_string(mc_scale,'-')
+		 where mc_scale <> '' -- where mc_scale like '%-%' 
+		 and Split_id <> '1' -- taking last one only
+		
+		
+  --- selecting    evaluation with its ,max score  ...i.e evalation ansd medical chart
+  
+		 SELECT  trevl_id ,  trevl_classification,trevl_status,trevl_score ,
+		  mc_data. Split_desc as max_scale
+		 FROM  treatmentEvaluation_dtl 
+
+		 left join (
+		 
+				 	SELECT DISTINCT  mc_classification ,mc_scale , Split_id, Split_desc  
+				from medicalchart_mstr 
+				cross apply   fn_split_string(mc_scale,'-')
+				 where mc_scale <> '' -- where mc_scale like '%-%' 
+				 and Split_id <> '1' -- taking last one only
+		
+		 )  as mc_data on mc_data.mc_classification=trevl_classification
+		 
+		 where 
+		trevl_classification not in ('Physiotherapy','Occupational Therapy','Speech') 
+		and trevl_id like '%TEA%'  -- only new records
+		and trevl_status='Completed'
+		 
+		
+	---- per eavluation records count
+	select    trscr_treval,  count(trscr_treval) as score_records_count  from treatmentevaluationscore_dtl   
+					where trscr_isActive ='1'
+				  GROUP BY trscr_treval	
+				  
+
+-------------------- per eavluation with its  no_of records				  
+				  
+SELECT  trevl_id ,  trevl_classification,trevl_status,trevl_score 
+ , ISNULL (score_records_count,0) as score_records_count --- , ((trevl_score*100)/score_records_count) as score_percentage
+from treatmentEvaluation_dtl  
+
+left join ( 
+				select    trscr_treval,  count(trscr_treval) as score_records_count  from treatmentevaluationscore_dtl   
+					where trscr_isActive ='1'
+				  GROUP BY trscr_treval
+				)   as score_records
+				on score_records.trscr_treval =trevl_id
+where 
+		trevl_classification not in ('Physiotherapy','Occupational Therapy','Speech') 
+		and trevl_id like '%TEA%'  -- only new records
+		and trevl_status='Completed'				  
+				  
+	---- now--- evaluation with max_score--> total score ---> percentage
+	------------------------------
+	-----------------------------
+	
+				  
+		 SELECT  trevl_id ,  trevl_classification,trevl_status,trevl_score ,
+		  mc_data. Split_desc as max_scale, score_records.score_records_count as no_of_records,
+		  (mc_data. Split_desc*score_records.score_records_count) as max_score,
+		  cast(  (trevl_score*100)/(mc_data. Split_desc*score_records.score_records_count) as decimal(10,2)  )as percentage
+		 FROM  treatmentEvaluation_dtl 
+
+		 ----
+		 left join (
+		 
+				 	SELECT DISTINCT  mc_classification ,mc_scale , Split_id, Split_desc  
+				from medicalchart_mstr 
+				cross apply   fn_split_string(mc_scale,'-')
+				 where mc_scale <> '' -- where mc_scale like '%-%' 
+				 and Split_id <> '1' -- taking last one only
+		
+		 )  as mc_data on mc_data.mc_classification=trevl_classification
+		 ---
+		 left join ( 
+				select    trscr_treval,  count(trscr_treval) as score_records_count  from treatmentevaluationscore_dtl   
+					where trscr_isActive ='1'
+				  GROUP BY trscr_treval
+				)   as score_records
+				on score_records.trscr_treval =trevl_id
+				
+		-------------		
+		 
+		 where 
+		trevl_classification not in ('Physiotherapy','Occupational Therapy','Speech') 
+		and trevl_id like '%TEA%'  -- only new records
+		and trevl_status='Completed'
+				  
+				  
+		 
+		 
+
+		
+		
+
+		
+SELECT scr_id,scr_venue ,ISNULL (Num_scrd_src_id,0) AS scr_nbr_children
+FROM screening_mstr
+left join 
+	( select scrd_src_id AS cnt_scrd_src_id ,count(scrd_src_id)  AS Num_scrd_src_id 
+			from screening_det 
+			where scrd_isActive='1'
+			group by scrd_src_id
+ ) 
+AS Child_Cnt ON Child_Cnt.cnt_scrd_src_id = scr_id
+where scr_isActive=1
+
+
+
+=============================== Order no ==================================
+
+SELECT  trevl_id , 
+ROW_NUMBER() OVER(  ORDER BY trevl_serviceuser ASC )  row_no,
+trevl_serviceuser, trevl_classification,trevl_lastmodifieddt,  trevl_evalno 
+from treatmentEvaluation_dtl  where trevl_isActive ='1'
+
+ORDER  by trevl_serviceuser, trevl_classification,trevl_lastmodifieddt
+
+
+------------------------
+
+SELECT  trevl_id , 
+ROW_NUMBER() OVER( PARTITION BY trevl_serviceuser  ORDER BY trevl_serviceuser  )  row_no,
+trevl_serviceuser, trevl_classification,trevl_lastmodifieddt,  trevl_evalno 
+from treatmentEvaluation_dtl  where trevl_isActive ='1'
+
+ORDER  by trevl_serviceuser, trevl_classification,trevl_lastmodifieddt
+
+
+---------------------
+SELECT  trevl_id , 
+ROW_NUMBER() OVER(PARTITION BY trevl_serviceuser,trevl_classification  ORDER BY trevl_serviceuser,trevl_classification,trevl_createddt,trevl_evalno )  row_no,
+trevl_serviceuser, trevl_classification,trevl_createddt,  trevl_evalno 
+from treatmentEvaluation_dtl  where trevl_isActive ='1'
+
+ORDER  by trevl_serviceuser, trevl_classification,trevl_createddt,trevl_evalno
+
+
+----------------------------
+
+----------------------------Order with update
+
+
+
+UPDATE treatmentEvaluation_dtl  set  trevl_evalno =te.row_no, trevl_lastmodifieddt ='2021-01-14 00:00:00'
+
+from treatmentEvaluation_dtl  join 
+
+(
+
+
+SELECT  trevl_id t_id , 
+ROW_NUMBER() OVER(PARTITION BY trevl_serviceuser,trevl_classification  
+ORDER BY trevl_serviceuser,trevl_classification,trevl_createddt,trevl_evalno )  row_no,
+trevl_serviceuser t_serviceuser, trevl_classification t_classification,trevl_createddt t_createddt,  trevl_evalno t_evalno 
+from treatmentEvaluation_dtl  where trevl_isActive ='1'
+
+---ORDER  by trevl_serviceuser, trevl_classification,trevl_createddt,trevl_evalno
+
+)  as te on te.t_id=trevl_id
+
+
+
+==================================  Operators ( if ) =========================
+
+ 
+        SELECT  
+           case when 1=1 
+               then 'true' 
+               else 'false'
+            end
+            
+  ----------------------------------
+
+            
+            SELECT  COUNT(task_id)  count, task_status,task_travelin_starttime,task_checkin_time,
+              
+            case when task_status='Open'
+                  		then 
+                  		            case when  (task_travelin_starttime is not null or task_checkin_time is not null)
+                  		                   then '1'
+                  		                   else '0'
+                  		             end      
+                  		else '1'
+                  		
+             end     		
+                  		
+              as is_started    		
+            
+            from task_mstr 
+            
+            where task_owner ='00528000006PK4fAAG' and task_date ='2021-01-21'
+            
+            GROUP  by task_status,task_travelin_starttime,task_checkin_time
+              
+  

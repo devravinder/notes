@@ -62,3 +62,5 @@ External Softwares
  
   redis-tools   ( optional )
       - redis cli
+
+  diodon - clipboard manager

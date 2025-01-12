@@ -53,7 +53,7 @@ External Softwares
 
   Kubectl - to manage kubernates clusters
 
-  Lens ( kontena-lens )  
+  Lens ( kontena-lens )  ( k8slens )
        - install using snap store 
 
   tmux 

@@ -64,3 +64,6 @@ External Softwares
       - redis cli
 
   diodon - clipboard manager
+  
+  helm ( helm-classis )
+     - with snap

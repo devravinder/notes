@@ -67,3 +67,8 @@ External Softwares
   
   helm ( helm-classis )
      - with snap
+
+  libra-office
+     - with apt
+  vlc
+    - with snap

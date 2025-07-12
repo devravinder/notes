@@ -72,3 +72,29 @@ External Softwares
      - with apt
   vlc
     - with snap
+
+  UxPlay
+    - for screen mirroring form mobiles
+
+      - to start UxPlay
+         $ uxplay 
+
+      - to start & show uxPlay server name
+        $ uxplay -n "Ravinder Laptop"
+
+      - to start with specific resolution
+        $ uxplay -s 1920x1080
+    
+      - for only audio mode
+        $ uxplay -async
+
+      - to rotate screen
+        $ uxplay -r L  # or -r R
+
+      - to re-start ***
+         - sudo pkill uxplay  // else sometimes screen mirroring won't work
+         - uxplay
+
+    
+ gnome-shell-extension-manager
+    - to install extensions using GUI

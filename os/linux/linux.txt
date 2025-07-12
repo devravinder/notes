@@ -7,7 +7,23 @@ Chnaging to Gnome-store: https://askubuntu.com/questions/1386114/apparmor-proble
 
   to enable TTY => ctrl + alt + f4    ( from GUI mode)
 
-  to enable GUI => ctrl + alt + f1   (or)  ctrl + alt + f2  ( from TTY mode)
+  to enable GUI => ctrl + alt + f1   (or)  ctrl + alt + f2 (or) ctrl + alt + f7 ( from TTY mode)
+
+     - if unable to enter GUI mode, then GDM ( Gnome Display Manager ) might have crashed
+        - reinstall
+
+     - to check GDM status
+        - $ sudo systemctl status gdm3.service
+     
+     - install gdm ( check latest version )
+       - $ sudo apt install --reinstall ubuntu-desktop gdm3   
+
+     - start gdm 
+       - $ sudo systemctl start gdm3.service
+
+     - then enter into GUI mode
+        - ctrl + alt + f1   (or)  ctrl + alt + f2 (or) ctrl + alt + f7
+
 
 
 

@@ -112,7 +112,7 @@
     eg: tmux new -s s1 -d 'serve -p 3000'                                               
 
 
-19. to add new pane to existing session from CMD                                
+19. to add new pane to existing session from CMD    ( by default detach mode)                            
 
    $ tmux split-window -t session_name_or_number -v 'command_to_execute'                     ****
 

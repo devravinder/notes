@@ -21,7 +21,7 @@
     1. Ctrl + b  then '%'      ( for vertical Pane )  ( for % = Shift + 5 )                ****
         - Note: Ctrl key should be leaved before pressing  '%'
 
-    2. Ctrl + b then "         (quetations)    ( for " = Shift + (see on keyboard) )       ****
+    2. Ctrl + b then "       ( horizontal Pane )  (quetations) ( for " = Shift + " )       ****
            
        
 3. to switch between Panes
@@ -30,7 +30,7 @@
     $ Ctrl + B then 'o'   // to next pane ( not zero...it's o - Open's o)                  ****
              
 4. resizing the Panes
-    Ctrl + b then Ctrl + arrow-keys
+    Ctrl + b then Ctrl + arrow-keys                                                        ****
        
        - Note: after prefix key ( Ctrl + b ) again Ctrl + arrow keys
 
@@ -92,29 +92,29 @@
 
 =========================  Impornat ==============
 
-17. new session & comma_to_execute from CMD
+17. new session & command_to_execute from CMD
 
-   $ tmux new 'comma_to_execute'                                                           ****
+   $ tmux new 'command_to_execute'                                                           ****
 
      eg: tmux new 'serve -p 3000'
 
-18. new session & detach mode & comma_to_execute from CMD
+18. new session & detach mode & command_to_execute from CMD
 
-    $ tmux new -d 'comma_to_execute'                                                       ****
+    $ tmux new -d 'command_to_execute'                                                       ****
 
     eg: tmux new -d 'serve -p 3000'
 
 
-19. new session with name & detach mode & comma_to_execute from CMD
+19. new session with name & detach mode & command_to_execute from CMD
     
-    $ tmux new -s session_name -d 'comma_to_execute'                                       ****
+    $ tmux new -s session_name -d 'command_to_execute'                                       ****
 
     eg: tmux new -s s1 -d 'serve -p 3000'                                               
 
 
 19. to add new pane to existing session from CMD                                
 
-   $ tmux split-window -t session_name_or_number -v 'comma_to_execute'                     ****
+   $ tmux split-window -t session_name_or_number -v 'command_to_execute'                     ****
 
    eg: tmux split-window -t s1 -v 'serve -p 4000'
    eg: tmux split-window -t s1 -h 'serve -p 5000'

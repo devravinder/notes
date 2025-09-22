@@ -1,2 +1,0 @@
-1. Java installation & versions management
-  use Sdkman ( install )

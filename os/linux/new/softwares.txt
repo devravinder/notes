@@ -1,11 +1,11 @@
 
-Usefull Softwares 
-#################
- software usages are documented in 'software-usages'
+# Usefull Softwares
+
+software usages are documented in 'software-usages'
 
 
-Default Softwares
-====================
+## Default Softwares
+
 
     1. update-alternatives
         to use multiple versions of same software
@@ -27,8 +27,8 @@ Default Softwares
 
 
 
-External Softwares
-=====================
+## External Softwares
+
   Chrome
   Brave
   git
@@ -96,5 +96,7 @@ External Softwares
          - uxplay
 
     
- gnome-shell-extension-manager
+   gnome-shell-extension-manager
     - to install extensions using GUI
+   codex (chat Gpt CLI)
+     - using pnpm `pnpm add -g @openai/codex`

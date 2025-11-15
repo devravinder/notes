@@ -98,5 +98,6 @@ software usages are documented in 'software-usages'
     
    gnome-shell-extension-manager
     - to install extensions using GUI
-   codex (chat Gpt CLI)
-     - using pnpm `pnpm add -g @openai/codex`
+   codex (chat Gpt CLI) & Gemini using pnpm
+     - `pnpm add -g @openai/codex`
+     - `pnpm add -g  @google/gemini-cli`

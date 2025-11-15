@@ -1,7 +1,0 @@
-extensions:
-
-  1. codeium
-      if codeium is not opening
-          help -> find actions -> Registry ->
-                               ide.browser.jcef.sandbox.enable   - disable this
-  

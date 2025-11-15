@@ -4,24 +4,32 @@ This document contains a collection of notes, recommended extensions, keyboard s
 
 ## Recommended Extensions
 
--   **GitLens**: Supercharges the Git capabilities built into VS Code.
--   **Bundle Size**: Shows the size of the focused file in the status bar.
--   **Docker**: Adds syntax highlighting, commands, and more for Dockerfiles and `docker-compose` files.
--   **Emoji**: Provides emoji syntax highlighting and autocomplete.
--   **ES7+ React/Redux/React-Native snippets**: Provides JavaScript and React/Redux snippets in ES7+.
--   **ESLint**: Integrates ESLint into VS Code.
--   **GitHub Copilot**: AI-powered code completion and suggestion tool.
--   **Markdown Preview Mermaid Support**: Adds Mermaid diagram rendering to the VS Code Markdown preview.
--   **Pretty TypeScript**: Formats TypeScript code.
--   **Prisma**: Adds syntax highlighting, formatting, and autocompletion for Prisma schemas.
--   **Protobuf**: Provides Protobuf language support.
--   **Sass IntelliSense**: Advanced autocompletion for Sass.
--   **SVG**: A powerful tool for working with SVG.
--   **Tailwind CSS IntelliSense**: Enhances the Tailwind development experience with advanced features.
--   **YAML**: Provides YAML language support.
--   **shell-format**: A formatter for shell scripts.
--   **Terraform**: Adds syntax highlighting and other features for Terraform.
--   **Terraform Doc Snippets**: Provides documentation snippets for Terraform.
+- **GitLens**: Supercharges the Git capabilities built into VS Code.
+- **Bundle Size**: Shows the size of the focused file in the status bar.
+- **Docker**: Adds syntax highlighting, commands, and more for Dockerfiles and `docker-compose` files.
+- **Emoji**: Provides emoji syntax highlighting and autocomplete.
+- **ES7+ React/Redux/React-Native snippets**: Provides JavaScript and React/Redux snippets in ES7+.
+- **ESLint**: Integrates ESLint into VS Code.
+- **GitHub Copilot**: AI-powered code completion and suggestion tool.
+- **Markdown Preview Mermaid Support**: Adds Mermaid diagram rendering to the VS Code Markdown preview.
+- **Pretty TypeScript**: Formats TypeScript code.
+- **Prisma**: Adds syntax highlighting, formatting, and autocompletion for Prisma schemas.
+- **Protobuf**: Provides Protobuf language support.
+- **Sass IntelliSense**: Advanced autocompletion for Sass.
+- **SVG**: A powerful tool for working with SVG.
+- **Tailwind CSS IntelliSense**: Enhances the Tailwind development experience with advanced features.
+- **YAML**: Provides YAML language support.
+- **shell-format**: A formatter for shell scripts.
+- **Terraform**: Adds syntax highlighting and other features for Terraform.
+- **Terraform Doc Snippets**: Provides documentation snippets for Terraform.
+- **Markdown Lint**: Lint for markdown files
+  - add the below code in setting.json to work code blocks properly in markdown
+
+    ```json
+        "markdownlint.config": {
+        "MD046": { "style": "fenced" }
+       }
+    ```
 
 ## Keyboard Shortcuts
 
@@ -147,4 +155,5 @@ This configuration first runs a `preLaunchTask` to compile the TypeScript code a
     ]
 }
 ```
+
 You will need to have a corresponding task defined in your `.vscode/tasks.json` file for the `preLaunchTask` to work.

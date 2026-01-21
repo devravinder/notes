@@ -1,68 +1,118 @@
 # Vim Quick Reference
 
-This is a quick reference guide for basic Vim commands.
+Quick reference guide for basic Vim commands.
 
 ## Modes
 
-Vim is a modal editor, which means it has different modes for different tasks. The two most basic modes are:
+Vim is a modal editor. The two main modes are:
 
--   **Normal Mode**: The default mode. Used for navigation, deletion, copying, pasting, and executing commands.
--   **Insert Mode**: Used for typing and editing text.
+- `Normal Mode`
+  - Default mode
+  - Used for navigation, copy, paste, delete, and commands
 
-| Action | Command |
-| :--- | :--- |
-| Enter Insert Mode | `i` |
-| Exit Insert Mode | `Esc` |
+- `Insert Mode`
+  - Used for typing and editing text
+
+### Mode Switching
+
+1. `i` – Enter Insert Mode
+   - Start typing text
+
+2. `Esc` – Exit Insert Mode
+   - Return to Normal Mode
+
+---
 
 ## Basic Commands
 
-All commands are executed from **Normal Mode**.
+All commands run from `Normal Mode`.
 
 ### Saving and Quitting
 
-| Command | Action |
-| :--- | :--- |
-| `:w` | Save the current file. |
-| `:q` | Quit the current file. |
-| `:qa` | Quit all open files. |
-| `:wq` | Save and quit. |
-| `ZZ` | A shortcut for `:wq`. |
-| `:q!` | Quit without saving changes. |
+1. `:w` – Save file
+   - Writes changes to disk
+
+2. `:q` – Quit file
+   - Exit if no unsaved changes
+
+3. `:qa` – Quit all
+   - Close all open files
+
+4. `:wq` – Save & quit
+   - Write and exit
+
+5. `ZZ` – Quick save & quit
+   - Same as `:wq`
+
+6. `:q!` – Force quit
+   - Exit without saving
+
+---
 
 ### Navigation
 
-| Command | Action |
-| :--- | :--- |
-| `h`, `j`, `k`, `l` | Move left, down, up, right. |
-| `0` (zero) | Go to the beginning of the current line. |
-| `$` | Go to the end of the current line. |
-| `gg` | Go to the first line of the file. |
-| `G` | Go to the last line of the file. |
-| `:20` | Go to line number 20. |
+1. `h` `j` `k` `l` – Cursor movement
+   - Left, down, up, right
+
+2. `0` – Line start
+   - Jump to beginning of line
+
+3. `$` – Line end
+   - Jump to end of line
+
+4. `gg` – File start
+   - Go to first line
+
+5. `G` – File end
+   - Go to last line
+
+6. `:20` – Jump to line
+   - Goes to line number 20
+
+---
 
 ### Editing
 
-| Command | Action |
-| :--- | :--- |
-| `o` | Insert a new line **after** the current line and enter Insert Mode. |
-| `O` | Insert a new line **before** the current line and enter Insert Mode. |
-| `S` | Delete the entire current line and enter Insert Mode. |
-| `u` | Undo the last change. |
-| `Ctrl + r` | Redo the last undone change. |
+1. `o` – New line after
+   - Insert below current line
 
-### Copy, Paste, and Delete
+2. `O` – New line before
+   - Insert above current line
 
-| Command | Action |
-| :--- | :--- |
-| `yy` | Yank (copy) the entire current line. |
-| `p` | Paste the copied or deleted text after the cursor. |
-| `P` | Paste before the cursor. |
-| `dd` | Delete the entire current line. |
-| `dw` | Delete from the cursor to the beginning of the next word. |
+3. `S` – Replace line
+   - Delete current line and enter insert mode
+
+4. `u` – Undo
+   - Revert last change
+
+5. `Ctrl + r` – Redo
+   - Re-apply undone change
+
+---
+
+### Copy, Paste, Delete
+
+1. `yy` – Copy line
+   - Yank current line
+
+2. `p` – Paste after
+   - Paste below cursor
+
+3. `P` – Paste before
+   - Paste above cursor
+
+4. `dd` – Delete line
+   - Remove current line
+
+5. `dw` – Delete word
+   - Delete from cursor to next word
+
+---
 
 ## Settings
 
-| Command | Action |
-| :--- | :--- |
-| `:set number` | Display line numbers. |
-| `:set nonumber` | Hide line numbers. |
+1. `:set number` – Show line numbers
+   - Enables numbering
+
+2. `:set nonumber` – Hide line numbers
+   - Disables numbering

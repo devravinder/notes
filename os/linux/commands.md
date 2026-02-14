@@ -53,3 +53,4 @@ Set display variable:
 
 ```bash
 export DISPLAY=:1
+```

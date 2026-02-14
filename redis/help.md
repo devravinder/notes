@@ -1,6 +1,6 @@
 # Redis Installation and Usage
 
-## 1) Installation
+## 1. Installation
 
 ```bash
 curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
@@ -16,7 +16,7 @@ service redis-server start  # enter system user password
 service redis-server status
 ```
 
-## 2) Usage with CLI
+## 2. Usage with CLI
 
 ```bash
 redis-cli

@@ -4,6 +4,6 @@ This section contains notes and information related to specific business or indu
 
 ## Available Domains
 
--   [**Banking**](./banking/README.md): Terminology and concepts related to the banking industry.
--   **Educational**: (No content yet)
--   **Human Resources (HR)**: (No content yet)
+- [**Banking**](./banking/README.md): Terminology and concepts related to the banking industry.
+- **Educational**: (No content yet)
+- **Human Resources (HR)**: (No content yet)

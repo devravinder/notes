@@ -1,0 +1,50 @@
+/* Force hamburger icon visible on ALL screen sizes */
+.menu-icon {
+  display: block !important;
+}
+
+/* Hide the horizontal nav links by default (desktop behavior) */
+.site-nav .trigger {
+  display: none !important;
+}
+
+/* Hide the checkbox itself (it's invisible anyway, but just in case) */
+.nav-trigger {
+  display: none;
+}
+
+/* When checkbox is :checked → show the menu items (dropdown) */
+.site-nav input:checked ~ .trigger {
+  display: block !important;
+}
+
+/* Ensure it works nicely on desktop too (no media query needed for always-on hamburger) */
+@media screen and (min-width: 48em) {   /* Minima's desktop breakpoint is ~768px / 48em */
+  .menu-icon {
+    display: block !important;
+  }
+  .site-nav .trigger {
+    display: none !important;   /* keep links hidden */
+  }
+}
+
+/* Optional: Improve positioning / styling of the dropdown on desktop */
+@media screen and (min-width: 48em) {
+  .site-nav .trigger {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;           /* or var(--background-color) if using variables */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 160px;
+    z-index: 10;
+  }
+
+  .site-nav .page-link {
+    display: block;
+    padding: 0.5em 1em;
+    white-space: nowrap;
+  }
+}

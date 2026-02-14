@@ -1,4 +1,4 @@
 title: Notes
 description: My notes & blogs from markdown files
-theme: jekyll-theme-dinky # jekyll-theme-slate ( except minima, remaing all should be prefixed with jekyll-theme- )
+theme: jekyll-theme-leap-day # jekyll-theme-slate ( except minima, remaing all should be prefixed with jekyll-theme- )
 show_downloads: false

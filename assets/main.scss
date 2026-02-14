@@ -2,6 +2,15 @@
 ---
 @import "minima";
 
+.post-header{
+    display: none !important;
+}
+
+.page-content{
+    padding: 12px 0 !important;
+}
+
+//------------- hamburger menu
 
 /* Force hamburger icon visible on ALL screen sizes */
 .menu-icon {

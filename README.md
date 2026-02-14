@@ -1,4 +1,4 @@
-# 📘 Notes
+# [📘 Notes](https://notes.paravartech.com/)
 
 This repository contains personal notes and blogs written in Markdown.  
 It is hosted using GitHub Pages with a customized Jekyll setup.

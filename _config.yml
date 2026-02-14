@@ -1,4 +1,4 @@
 title: Notes
 description: My notes & blogs from markdown files
-theme: jekyll-theme-minima
+theme: minima # jekyll-theme-slate
 show_downloads: false

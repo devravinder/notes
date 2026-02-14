@@ -2,8 +2,11 @@
 ---
 @import "minima";
 
+.page-heading{
+  display: none !important; // to hide double header in default markdown ( README.md )
+}
 .post-header{
-    display: none !important;
+    display: none !important; // to hide double header in other markdown files
 }
 
 .page-content{

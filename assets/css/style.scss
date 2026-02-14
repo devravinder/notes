@@ -1,12 +1,11 @@
    ---
    ---
    
-   @import "minima";
+   @import "{{ site.theme }}";
 
-   .site-title {
-     color: aqua;
-   }
-
+.site-title{
+    color: aqua !important;
+}
 
 /* Force hamburger icon visible on ALL screen sizes */
 .menu-icon {

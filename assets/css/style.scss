@@ -1,3 +1,8 @@
+   ---
+   ---
+   
+   @import "{{ site.theme }}";
+
 /* Force hamburger icon visible on ALL screen sizes */
 .menu-icon {
   display: block !important;

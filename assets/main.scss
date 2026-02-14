@@ -33,7 +33,7 @@
 }
 
 /* Ensure it works nicely on desktop too (no media query needed for always-on hamburger) */
-@media screen and (min-width: 48em) {   /* Minima's desktop breakpoint is ~768px / 48em */
+@media screen and (min-width: 1em) {   /* Minima's desktop breakpoint is ~768px / 48em */
   .menu-icon {
     display: block !important;
   }
@@ -43,7 +43,7 @@
 }
 
 /* Optional: Improve positioning / styling of the dropdown on desktop */
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 1em) {
   .site-nav .trigger {
     position: absolute;
     top: 100%;

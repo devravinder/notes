@@ -1,0 +1,24 @@
+/* Hide normal navigation on desktop */
+.site-nav .trigger {
+  display: none !important;
+}
+
+/* Always show hamburger icon */
+.nav-trigger {
+  display: none;
+}
+
+.menu-icon {
+  display: block !important;
+}
+
+/* Make hamburger visible always */
+@media screen and (min-width: 600px) {
+  .menu-icon {
+    display: block !important;
+  }
+
+  .site-nav input:checked ~ .trigger {
+    display: block !important;
+  }
+}

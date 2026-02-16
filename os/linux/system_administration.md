@@ -68,4 +68,14 @@ Back up the following:
 Create file:
 
 ```bash
-sudo nano /usr/share/applications/sts.desktop
+   sudo nano /usr/share/applications/postman.desktop
+  [Desktop Entry]
+  Categories=Development;
+  Comment=Supercharge your API workflow
+  Exec="/home/ravinder/Soft/Postman/app/Postman"
+  Icon=/home/ravinder/Soft/Postman/app/resources/app/assets/icon.png
+  Name=Postman
+  Terminal=false
+  Type=Application
+  Version=1.0
+```

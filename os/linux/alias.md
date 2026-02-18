@@ -1,11 +1,12 @@
+# Linux Alias
 
-##############################################################################################
-########################################     Aliases     #####################################
-##############################################################################################
+aliases to improve productivity
 
-
+```bash
 
 ###################################### System One Time Configuration ###################################################
+export DISPLAY=:1    # enable gedit for normal user
+
 
 : '
   only once is enough
@@ -15,18 +16,34 @@
     shopt -u globstar  ## to disable globstar   
 '
 
+shopt -s globstar  ## to enable globstar
+
+
+##############################################################################################
+########################################     Aliases     #####################################
+##############################################################################################
+
+
+
+
 ###################################### System ###################################################
 
 
+
+alias Ls="sudo su"
+alias gedit="gnome-text-editor"  # now gedit is replaced by gnome-text-editor
+
 alias a=" alias"
-alias ob="open -t ~/.zshrc" ## open bash  " notepad ~/.bashrc"    ##  "open -t ~/.zshrc" in mac  -t -> defaut text editor
-alias oa="open -t ~/.zshrc"
-alias eb="open -t ~/.zshrc" ## edit bash
-alias ea="open -t ~/.zshrc" ## edit alias
+alias ob="gedit /etc/bash.bashrc" ## open bash  " notepad ~/.bashrc"    ##  "open -t ~/.zshrc" in mac  -t -> defaut text editor
+alias eb="gedit /etc/bash.bashrc" ## edit bash
+alias ea="gedit /etc/bash.bashrc" ## edit alias
 alias cls=" clear"
-alias cf="open -t " # + file name  ## create file
-alias of="open -t " # + file name	 ## open file
-alias af="open -t about.txt" # about file
+alias cf="gedit " # + file name  ## create file
+alias of="gedit " # + file name	 ## open file
+alias af="gedit about.txt" # about file
+
+alias cpf="xclip -sel clip < "   # copy file content to clip
+
 
 
 
@@ -39,27 +56,14 @@ alias p-l="lsof -i -P -n | grep LISTEN" # to see listening ports
 alias ports-all="lsof -i -P -n" # to see all running process
 alias ports-search="lsof -i -P -n | grep " # port no     ## to search particular port no and PID
 		##   lsof -i:portNo     <-- this also we can use to see port info
+		
+alias p-s="lsof -i -P -n | grep " # port no     ## to search particular port no and PID
 
 
 alias kill-process="kill " # PID
 alias kill-process-force="kill -9 " # PID
 alias k-p-f="kill -9 " # PID
 
-
-###################################### youtube-dl ###############################################
-: '
-17          3gp       176x144     
-36          3gp       320x240     
-5           flv       400x240     
-43          webm      640x360     
-18          mp4       640x360     
-22          mp4       1280x720    (best)
-'
-
-alias y="youtube-dl " #+url
-alias yv="youtube-dl -f 22 " #+url ( with video id )  ## mp4
-alias yp="youtube-dl -f 22 " #+url ( with out video id and with playlist id) ## mp4
-alias ypi="youtube-dl -f 22 -o '#%(playlist_index)s - %(title)s.%(ext)s' " # url ##  youtube playlist index
 
 ###################################### git ###################################################
 
@@ -82,14 +86,14 @@ alias gic="gi && gac " # git init and commit
 alias gcl=" git clone " # + url					##					***
 alias gs=" git status " 					##					***
 alias glg="git log"						##					***
-alias glgg="git log --graph"		##					***
-
+alias glgg="git log --graph"					##					***
 
 alias gst="git add -A && git stash push -m " # + stash message  # "git add -A && git stash"  ***
-alias gstp="git stash pop"      #    ***
-alias gsta="git stash apply"    #    ***
-alias gstl="git stash list"     #    ***
-alias gstc="git stash clear"    #    ***
+alias gstp="git stash pop"    #      ***
+alias gsta="git stash apply"  #      ***
+alias gstl="git stash list"   #      ***
+alias gstc="git stash clear"  #      ***
+
 
 
 
@@ -216,11 +220,6 @@ alias gmf="git merge --allow-unrelated-histories " # + branch name
 
 alias gcp="git cherry-pick" # commit ids
 
-## revert 
-
-alias grvt="git revert " # commit id    								***
-
-## unstaging
 alias gu="git reset HEAD -- ." # unstaging all files
 alias gua="git reset HEAD -- ." # unstaging all files
 alias guf="git reset HEAD -- " # path to file
@@ -385,8 +384,9 @@ alias vsshgl="ssh -T git@gitlab.com" # verify ssh with git-lab
 
 
 ## to terminate another processing bash
-alias terminate="rm -f .git/index.lock"
-alias term="rm -f .git/index.lock"
+alias gterm="rm -f .git/index.lock"
+alias grml="rm -f .git/index.lock"   # remove lock
+
 
 
 ##  to enable auto-complete
@@ -568,8 +568,85 @@ to do this alread an old-repo should exist and... one empty new-repo should be c
 '
 
 
-####################################### npm configurations ####################################
+########################################### tmux ####################################################
+alias t="tmux"
+alias td="tmux detach" # current session                                                                ***
+alias ta="tmux attach" # latest sesion                                                                  ***
+alias tls="tmux ls" # to list all sessions                                                              ***
 
+
+# Split Window ( actually Panes ) of current session # detach mode by default
+alias twsv="tmux split-window -v " # + command?  ( creates horixzontal panes )                          **
+alias twsh="tmux split-window -h " # + command?  ( creates vertical panes )                             **
+
+
+#  sessions
+
+alias ts="tmux new " # +  command?         
+alias tsl="tmux ls"                  
+alias tsn="tmux new -s " # name +  command?     # named session                                         **
+alias tsd="tmux new -d "  # + command?               # create detach mode sessiom                       ***
+alias tsa="tmux attach -t " # + name_or_id      
+alias tsac="tmux split-window -h -t " # name_or_id + command?                                           ****
+                #  tmux session add command  
+                # session name_or_id is mandatory
+alias tsr="tmux rename-session -t " # name_or_id + new_name                                             ***
+
+alias tsk="tmux kill-session -t " # + name_or_id
+
+
+# Commands to execute
+ ## tmux commands
+function tcs(){
+     
+     if [ "$#" -lt 1 ]; then
+        echo "Error: At least one argument is required."
+    fi
+
+    tmux new -d $1
+
+    shift  # remove the first one
+
+
+    for arg in "$@"; do
+      tmux split-window -h $arg
+    done
+}
+
+function tcsh(){
+     
+     if [ "$#" -lt 1 ]; then
+        echo "Error: At least one argument is required."
+    fi
+
+    tmux new -d $1
+
+    shift  # remove the first one
+
+
+    for arg in "$@"; do
+      tmux split-window -v $arg  # vertical split creates horizontal panes
+    done
+}
+
+
+
+# useful commands
+: '
+  Note: Ctrl + b is prefix key for short keys
+  
+  resize   => Ctrl + b then Ctrl + arrow-keys 
+  switch   => Ctrl + b then arrow-keys          ( only arrow keys )
+  detach   => Ctrl + b then d                                                                           **** 
+
+  split h  => Ctrl + b then  %  # percentage
+  spilit v => Ctrl + b the "    # quotes
+
+'
+
+
+
+####################################### npm & pnpm configurations ####################################
 alias ns="npm start"
 alias nrd="npm run dev"
 alias nrt="npm run test"
@@ -579,32 +656,120 @@ alias rmn="rm -r node_modules" # remove node modules
 alias rmna="rm -r ./**/node_modules" # remove node modules
 
 
-# mkdir -p "${HOME}/.npm-global"
 
 
-NPM_PACKAGES="${HOME}/.npm-global". ## "~/.npm-global"
 
-npm config set prefix $NPM_PACKAGES
 
-export PATH="$PATH:$NPM_PACKAGES/bin"
+# pnpm
+ # set one time: pnpm config set global-bin-dir /home/ravinder/.pnpm-global/bin --global
+ export PNPM_HOME="/home/ravinder/.pnpm-global/bin"
+ export PATH="$PNPM_HOME:$PATH"
+# pnpm end
 
-# Preserve MANPATH if you already defined it somewhere in your config.
-# Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
-export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+
+alias p="pnpm"
+alias pi="pnpm i"
+alias pr="pnpm run"
+alias pcv="pnpm create vite"
+alias cra="pnpm create vite" # create react app
+alias crav="pnpm create vite" # create react app
+alias pa="pnpm add"
+alias pag="pnpm add -g"
+alias px="pnpm dlx"
+
+
+
+# install bun with curl ( not with npm/pnpm)
+# curl -fsSL https://bun.com/install | bash
+
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias b="bun"
+alias br="bun run"
+alias bi="bun init"
+alias bir="bun init --react"
+alias birt="bun init --react=tailwind"
+alias birts="bun init --react=shadcn"
+alias ba="bun add"
+alias bag="bun add -g"
+alias bunx="bun x"
+alias bx="bun x"
 
 
 
 : '
- # only once is enough
 
-## mkdir "${HOME}/.npm-global"
+npm update is not working ( npm i -g npm )
+----------------------------------------------------------
+  this happens bcz,
+  "npm" command takes /usr/bin/npm  -> this is actually a link(symlink) file...which pints to lib/node_modules/npm/bin/npm-cli.js
+   when update: npm i -g npm -> the latest npm is installed in global packeage folder ( in our case /home/ravinder/.npm-global )
+   but when we run npm command, still the link file /usr/bin/npm is pointing to lib/node_modules/npm/bin/npm-cli.js
+   
+   so we need to change the link file ( /usr/bin/npm ) point to latest npm-cli.js
+   
+   
+   1) first remove (move to other folder) the previous link file 
+      $ rm /usr/bin/npm
+      
+   2) create a new link file in /usr/bin
+     $ ln -s /home/ravinder/.npm-global/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm
+     
+     [ to create link file:- $ ln -s full_path_to_file destination_file ]
+     [ to see link file actual path:- $ readlink /usr/bin/npm ]
 
-NPM_PACKAGES="/home/ravinder/.npm-global"
-
-npm config set prefix $NPM_PACKAGES
-
-export PATH=$NPM_PACKAGES/bin:$PATH
 '
 
 
+####################################### linux system configuration ####################################
 
+alias rui="sudo nautilus /" # root files // root UI   # sudo -i nautils (old )
+
+
+####################################### Env variables ####################################
+
+alias oe="gedit /etc/environment" # open env file
+alias ee="gedit /etc/environment" # edit env file
+alias re="source /etc/environment" # reload env
+
+
+#################################  SDKMAN #######################################################
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+
+################################## NVM #################################################
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+####################################################### AI ######################################################
+alias chatgpt="codex" 
+# for chatgpt
+
+# https://grokcli.io/
+
+############################################################ Python ###############################################
+alias py="python3"
+
+############################################################ C/C++ vcpkg ###############################################
+# https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-bash
+
+export VCPKG_ROOT=/home/ravinder/Soft/vcpkg
+export PATH=$VCPKG_ROOT:$PATH
+
+
+############################################################ Youtube Dl ###############################################
+alias ydl="yt-dlp "
+alias yt="yt-dlp "
+alias ytmp3="yt-dlp -t mp3 "
+
+
+function greet(){
+ echo "Hello Ravinder"
+}
+
+```

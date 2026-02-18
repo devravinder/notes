@@ -1,6 +1,6 @@
-# Linux Shortcuts and Aliases
+# Linux Shortcut
 
-This document provides a collection of useful keyboard shortcuts and shell aliases to improve productivity.
+This document provides a collection of useful keyboard shortcuts to improve productivity.
 
 ## Keyboard Shortcuts (GNOME)
 

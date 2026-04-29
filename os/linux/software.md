@@ -87,6 +87,8 @@ These tools are typically available in a standard Linux installation.
 - `Visual Studio Code`
 - `IntelliJ IDEA`
   - Remember to create a desktop entry
+- `Android Studio`
+- `waydroid` to run android apps
 
 ### API and Database Tools
 

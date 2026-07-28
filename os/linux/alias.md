@@ -644,6 +644,8 @@ function tcsh(){
 
 '
 
+####################################### Optional #############################################
+
 
 
 ####################################### npm & pnpm configurations ####################################
@@ -734,21 +736,8 @@ alias ee="gedit /etc/environment" # edit env file
 alias re="source /etc/environment" # reload env
 
 
-#################################  SDKMAN #######################################################
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-
-################################## NVM #################################################
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 
 ####################################################### AI ######################################################
-alias chatgpt="codex" 
-# for chatgpt
 
 # https://grokcli.io/
 
@@ -758,11 +747,15 @@ alias py="python3"
 ############################################################ C/C++ vcpkg ###############################################
 # https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-bash
 
-export VCPKG_ROOT=/home/ravinder/Soft/vcpkg
+export VCPKG_ROOT=/home/ravinder/soft/vcpkg
 export PATH=$VCPKG_ROOT:$PATH
 
 
 ############################################################ Youtube Dl ###############################################
+
+export YTDLP_ROOT=/home/ravinder/soft/yt-dlp
+export PATH=$YTDLP_ROOT:$PATH
+
 alias ydl="yt-dlp "
 alias yt="yt-dlp "
 alias ytmp3="yt-dlp -t mp3 "

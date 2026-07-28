@@ -35,6 +35,9 @@ alias gedit="gnome-text-editor"  # now gedit is replaced by gnome-text-editor
 
 alias a=" alias"
 alias ob="gedit /etc/bash.bashrc" ## open bash  " notepad ~/.bashrc"    ##  "open -t ~/.zshrc" in mac  -t -> defaut text editor
+
+export SUDO_EDITOR="gnome-text-editor"
+
 alias eb="gedit /etc/bash.bashrc" ## edit bash
 alias ea="gedit /etc/bash.bashrc" ## edit alias
 alias cls=" clear"

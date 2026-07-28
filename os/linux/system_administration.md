@@ -2,6 +2,12 @@
 
 This guide covers system administration topics including OS re-installation, remote access, and service management.
 
+## Information Details
+
+1. all the env variables are stored in `/etc/environment` or `~/.bashrc` or `/etc/bash.bashrc`
+
+---
+
 ## Re-installing Ubuntu
 
 ### Pre-installation Checklist
@@ -63,7 +69,11 @@ Back up the following:
    - Copy `.bash_aliases`
    - Restore app settings
 
-3. `Set up Desktop Entries`
+3. Setup desktop entries
+
+---
+
+## Set up Desktop Entries
 
 Create file:
 
@@ -79,3 +89,9 @@ Create file:
   Type=Application
   Version=1.0
 ```
+
+---
+
+## Adding Path to env variable
+
+- add path in `/etc/environment` or `~/.bashrc` or `/etc/bash.bashrc`

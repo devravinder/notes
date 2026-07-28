@@ -154,7 +154,7 @@ These tools are typically available in a standard Linux installation.
     pnpm add -g @openai/codex
     ```
 
-- `Gemini CLI`
+- `Gemini CLI` or `Antigravity`
 
     ```bash
     pnpm add -g @google/gemini-cli

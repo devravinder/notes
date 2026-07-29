@@ -44,17 +44,45 @@
 
 ## Special / unicode chars
 
-- ref: https://unicode.org/emoji/charts/full-emoji-list.html
+- ref: <https://unicode.org/emoji/charts/full-emoji-list.html>
 - `(Ctrl+Shift)+unicode`, eg `00B0` means `u00B0` -> `(Ctrl+Shift)+u00B0`
 - hold `Ctrl+Shift`, enter `u`, release, enter code, press Enter
 - or install 'insert unicode' vsc extension
   - place cursor where needed, `ctrl+shift+p`, search "insert unicode: insert"
 
+## Enable / Disable Service on System Start
+
+- eg: for docker
+- stop service:
+
+   ```bash
+     sudo systemctl stop docker
+     sudo systemctl stop docker.socket
+   ```
+
+- disable
+
+   ```bash
+    sudo systemctl disable docker
+    sudo systemctl disable docker.socket
+   ```
+
+- verify
+
+  ```bash
+     systemctl is-enabled docker
+     systemctl is-enabled docker.socket
+  ```
+
+- `Note:-`
+  - we can use `servive` instead of `systemctl`
+  - eg: `sudo systemctl stop docker` = `sudo service docker stop`
+
 ## Remote access
 
 ### SSH server
 
-- ref: https://likegeeks.com/ssh-connection-refused/
+- ref: <https://likegeeks.com/ssh-connection-refused/>
 - `sudo apt-get install openssh-server`
 - check status: `service sshd status` (enable/disable auto start)
 
@@ -73,7 +101,7 @@
 
 ### git on centos
 
-- ref: https://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-7-x-6-x
+- ref: <https://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-7-x-6-x>
 - `yum install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm`
 - `yum install git`
 - `git --version`
@@ -140,7 +168,7 @@
 
 - see current: `date`
 - list all: `timedatectl list-timezones | grep -i Asia`
-- set: ref https://forum.boltiot.com/t/convert-the-utc-to-ist-in-linux/2127
+- set: ref <https://forum.boltiot.com/t/convert-the-utc-to-ist-in-linux/2127>
   1. `timedatectl list-timezones | grep -i Asia`
   2. `sudo unlink /etc/localtime`
   3. `sudo ln -s /usr/share/zoneinfo/[zone/timezone] /etc/localtime` (eg `Asia/Kolkata`)
@@ -148,12 +176,13 @@
 
 ## Systemd service
 
-eg: NAT server service, ref https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nats-on-ubuntu-16-04
+eg: NAT server service, ref <https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nats-on-ubuntu-16-04>
 
 - optional: create a dedicated user per service
   - `sudo adduser --system --group --no-create-home --shell /bin/false nats`
   - `sudo chown -R nats:nats /srv`
 - create service file: `sudo nano /etc/systemd/system/nats.service`
+
   ```
   [Unit]
   Description=NATS messaging server
@@ -166,6 +195,7 @@ eg: NAT server service, ref https://www.digitalocean.com/community/tutorials/how
   [Install]
   WantedBy=multi-user.target
   ```
+
   - `WantedBy=multi-user.target` starts the service on boot
 - `sudo systemctl start nats`
 - `sudo systemctl status nats`

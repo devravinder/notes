@@ -1,56 +1,69 @@
-# Linux Commands
+# Linux commands
 
-This document provides a summary of various Linux commands and configurations.
+## Viewing files
 
-## GUI and Display Management
+- `cat a.txt` full content
+- `more a.txt` page by page, forward only
+- `less a.txt` page by page, both directions
+- `head -n 5 a.txt` top 5 lines
+- `tail -n 5 a.txt` bottom 5 lines
+- `history` all used commands
+- `!2` execute 2nd command from history
+- `whoami` active user
 
-### Switching Between GUI and TTY
+## System info
 
-- Enable TTY (from GUI mode): `Ctrl + Alt + F4`
-- Enable GUI (from TTY mode): `Ctrl + Alt + F1`, `Ctrl + Alt + F2`, or `Ctrl + Alt + F7`
+- `hostnamectl` OS version & details
+- `dpkg --print-architecture` system arch (amd64, arm64)
+- `lsb_release -a` or `cat /etc/*release` or `cat /etc/issue*` or `cat /proc/version`
+- `uname -a` system name & arch
+- `uname -m` arch type (amd or arm)
+- `hostname -I` ip address
 
-### GNOME Display Manager (GDM)
+## Resource usage
 
-If you are unable to enter GUI mode, the GNOME Display Manager (GDM) might have crashed.
+- `du -sh folder_or_file` size (s-summary h-human readable)
+- `lscpu | grep MHz` processor speed
+- `top` running processes
+- `df` disk space
+- `sudo fdisk -l` all disk space
+- `free -m` / `free -g` free ram in MB/GB
+- `ps ux` all processes & command path
+- `pidof programName` pid (may return multiple)
 
-- Check GDM status:
+## Permissions
 
-    ```bash
-    sudo systemctl status gdm3.service
-    ```
+- `u` user, `g` group, `o` other, `a` all
+- `chmod u=rwx fileName` set user read/write/execute
+- `chmod g+w fileName` add group write
+- `chmod o-x fileName` remove other execute
+- `chmod -R o=rwx folder` recursive (uppercase `-R`)
 
-- Reinstall GDM and Ubuntu Desktop:
+## Symlinks
 
-    ```bash
-    sudo apt install --reinstall ubuntu-desktop gdm3
-    ```
+- `ln -sf path_to_source path_to_target` works for files and folders
+- target shouldn't exist, else it's overridden (due to `-f`)
+- if creation fails, try with `sudo`
 
-- Start GDM:
+## find / search
 
-    ```bash
-    sudo systemctl start gdm3.service
-    ```
+- `find / -name "hello.js"`
+- `lsof -i -P -n | grep LISTEN` listening processes
+- `rm -fr folder` force delete
 
-### Wayland Configuration
+## Custom domain
 
-If you are unable to share your screen through a browser (like Chrome), you may need to disable Wayland.
+- add in `/etc/hosts` (prefer over `/etc/domain`)
+  - eg: `127.0.0.1 ravinder.com`
 
-1. Edit GDM configuration:
+## External hard disk (ntfs)
 
-    ```bash
-    sudo nano /etc/gdm3/custom.conf
-    ```
+- check file system: `sudo blkid /dev/sda1`
+- install utility if ntfs: `sudo apt-get install ntfs-3g`
+- create folder: `sudo mkdir -p /home/ravinder/2.0TB`
+- mount: `sudo mount -t ntfs-3g /dev/sda1 /home/ravinder/2.0TB`
 
-2. Disable Wayland:
+## gsettings
 
-    ```bash
-    WaylandEnable=false
-    ```
-
-### Enable GUI App Opening from CLI
-
-Set display variable:
-
-```bash
-export DISPLAY=:1
-```
+- for GUI-less settings: `gsettings` or `dconf`
+- ref: http://manpages.ubuntu.com/manpages/precise/en/man1/gsettings.1.html

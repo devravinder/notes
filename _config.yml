@@ -1,4 +1,4 @@
 title: Notes
-description: My notes & blogs from markdown files
-theme: minima # jekyll-theme-leap-day ( except minima, remaing all should be prefixed with jekyll-theme- )
+description: My notes
+theme: minima
 show_downloads: false

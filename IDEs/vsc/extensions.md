@@ -1,0 +1,20 @@
+# VSCode extensions
+
+- GitLens
+- Bundle size
+- docker
+- Emoji
+- Es7 + React/Redux
+- Eslint
+- Github Copilot
+- Markdown Preview Mermaid
+- Pretty Typescript
+- Prisma
+- Protobuf
+- Sass IntelliSense
+- SVG
+- Tailwind CSS IntelliSense
+- YAML
+- Shell-format
+- Terraform
+- Terraform doc snippets

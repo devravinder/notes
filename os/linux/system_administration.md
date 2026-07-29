@@ -1,200 +1,173 @@
-# Linux System Administration
+# Linux system administration
 
-This guide covers topics related to system administration, including OS re-installation, remote access, and service management.
+## Enable/disable GUI
 
-## Re-installing Ubuntu
+- enable TTY: `ctrl + alt + f4` (from GUI mode)
+- enable GUI: `ctrl + alt + f1/f2/f7` (from TTY mode)
+- if unable to enter GUI mode, GDM (Gnome Display Manager) may have crashed
+  - check status: `sudo systemctl status gdm3.service`
+  - reinstall: `sudo apt install --reinstall ubuntu-desktop gdm3`
+  - start: `sudo systemctl start gdm3.service`
+  - then re-enter GUI mode
 
-### Pre-installation Checklist
+## Wayland (screen share fix)
 
-Before you re-install, make sure to back up the following:
+- if unable to share screen through browser (chrome): `sudo nano /etc/gdm3/custom.conf`
+- uncomment `#WaylandEnable=false` to `WaylandEnable=false`
 
--   **Important Files**: Your personal files, documents, and any other critical data.
--   **Configuration**: Your shell aliases (`.bashrc`, `.zshrc`), application settings, etc.
--   **Project/Code Folders**: Any development work.
--   **List of Installed Software**: Note down the software you regularly use to re-install it later.
+## Open GUI app from CLI
 
-### Post-installation Steps
+- `export DISPLAY=:1`
 
-1.  **Install Essential Software**:
-    -   **Chrome**: Web browser.
-    -   **curl**: `sudo apt install curl`
-    -   **Git**: `sudo apt install git`
-    -   **VSC**: Install from the Snap Store or official `.deb` package.
-    -   **Node.js & npm**:
-        ```bash
-        # Use nvm (Node Version Manager) for better flexibility
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-        # Reload shell and install desired Node.js version
-        nvm install --lts
-        ```
-    -   **JDK (Java)**:
-        ```bash
-        # Install a specific version
-        sudo apt install openjdk-17-jdk
-        # Use `update-alternatives` to manage multiple versions (see software.md)
-        ```
-    -   **Other Software**: DBeaver, Postman, VLC, etc.
+## Environment variables
 
-2.  **Restore Configuration**:
-    -   Copy your backed-up alias files (e.g., `.bash_aliases`) to your home directory.
-    -   Restore any other application settings.
+- open `/etc/environment`
+- add variable
+  - system path variable: append to existing line
+  - specific variable: add in new line
+- reload: `source /etc/environment`
 
-3.  **Set up Desktop Entries**:
-    For applications that don't create a desktop entry automatically (like Eclipse/STS), you can create a `.desktop` file in `/usr/share/applications/`.
+## Screenshot & screen record
 
-    **Example for STS (Spring Tool Suite)**:
-    Create a file named `sts.desktop` with the following content:
-    ```ini
-    [Desktop Entry]
-    Type=Application
-    Name=STS
-    Comment=Spring Tool Suite
-    Icon=/path/to/your/sts/icon.xpm
-    Exec=/path/to/your/sts/STS
-    Terminal=false
-    Categories=Development;IDE;Java;
-    ```
+- `prntScrn` screenshot desktop
+- `alt+prntScrn` screenshot window
+- `shift+prntScr` screenshot selected area (saved in pictures folder or home)
+- `ctrl+alt+shift+R` start/stop screen record (saved in videos or home folder)
 
-## Remote Access
+## Combining USB partitions
 
-### SSH (Secure Shell)
+- using gParted (default in ubuntu)
+  - select pendrive (`/dev/sda`) from dropdown
+  - delete all partitions and apply
+  - create new volume (FAT32) with all available space
+- if usb doesn't show: open "Disks" app -> select pendrive -> click mount (play button)
 
-#### Setting up an SSH Server
+## Special / unicode chars
 
-To allow remote connections to your machine, you need to install and run an SSH server.
+- ref: https://unicode.org/emoji/charts/full-emoji-list.html
+- `(Ctrl+Shift)+unicode`, eg `00B0` means `u00B0` -> `(Ctrl+Shift)+u00B0`
+- hold `Ctrl+Shift`, enter `u`, release, enter code, press Enter
+- or install 'insert unicode' vsc extension
+  - place cursor where needed, `ctrl+shift+p`, search "insert unicode: insert"
 
-1.  **Install OpenSSH Server**:
-    ```bash
-    sudo apt-get install openssh-server
-    ```
-2.  **Check the service status**:
-    ```bash
-    sudo systemctl status ssh
-    ```
+## Remote access
 
-#### Passwordless Authentication (Key-based)
+### SSH server
 
-1.  **Generate an SSH Key Pair** on your **local** machine:
-    ```bash
-    ssh-keygen -t rsa -b 4096
-    ```
-    This creates a private key (`id_rsa`) and a public key (`id_rsa.pub`) in your `~/.ssh` directory.
+- ref: https://likegeeks.com/ssh-connection-refused/
+- `sudo apt-get install openssh-server`
+- check status: `service sshd status` (enable/disable auto start)
 
-2.  **Copy the Public Key to the Remote Server**:
-    You can do this automatically with `ssh-copy-id`:
-    ```bash
-    ssh-copy-id user@remote_host
-    ```
-    Or manually by appending the content of your `~/.ssh/id_rsa.pub` to the `~/.ssh/authorized_keys` file on the remote server.
+### SSH key & passwordless auth
 
-3.  **(Optional) Disable Password Authentication**: For better security, you can disable password logins on the remote server by editing `/etc/ssh/sshd_config` and setting `PasswordAuthentication no`. Restart the SSH service afterward (`sudo systemctl restart ssh`).
+- generate: `ssh-keygen -t rsa -b 2048`
+- convert to pem: `openssl rsa -in trb -outform pem > trb.pem`
+- to enable passwordless auth: add client's ssh `.pub` to remote's known hosts
+  - `vim /etc/ssh/sshd_config`, change `PasswordAuthentication yes` to `no` (~line 79)
+  - `systemctl restart sshd`
 
-#### Managing Multiple SSH Keys
+### SSH connect examples
 
-If you have multiple SSH keys, you can use `ssh-add` to add them to the SSH agent.
+- `ssh -i cent_1.pem root@ec2-13-235-27-223.ap-south-1.compute.amazonaws.com`
+- `ssh -i ubuntu-ec2.pem ubuntu@ec2-184-72-101-49.compute-1.amazonaws.com`
 
-```bash
-# Start the agent in the background
-eval `ssh-agent -s`
+### git on centos
 
-# Add your key
-ssh-add ~/.ssh/your_private_key
-```
+- ref: https://stackoverflow.com/questions/21820715/how-to-install-latest-version-of-git-on-centos-7-x-6-x
+- `yum install http://opensource.wandisco.com/centos/6/git/x86_64/wandisco-git-release-6-1.noarch.rpm`
+- `yum install git`
+- `git --version`
+- `yum install nano`
 
-### SCP (Secure Copy)
+### scp (file transfer)
 
-Use `scp` to securely transfer files between your local machine and a remote server.
+- `scp <OPTIONS> <SOURCE> <TARGET>`
+- local to remote: `scp <file_path> <user>@<remote_host>:<remote_dir>`
+  - eg: `scp -i Linux_Centos12012020.pem env.js root@ec2-13-235-27-223.ap-south-1.compute.amazonaws.com:/root/try`
+- remote to local: `scp <user>@<remote_host>:<remote_file_path> <local_dir>`
+  - eg: `scp -i Linux_Centos12012020.pem root@ec2-13-235-27-223.ap-south-1.compute.amazonaws.com:/root/try ~/Desktop`
 
--   **Local to Remote**:
-    ```bash
-    scp -i /path/to/key.pem /local/file/path user@remote_host:/remote/dir/
-    ```
--   **Remote to Local**:
-    ```bash
-    scp -i /path/to/key.pem user@remote_host:/remote/file/path /local/dir/
-    ```
+### AWS EC2 new instance setup
 
-### Connecting with FileZilla (SFTP)
+1. choose ubuntu server
+2. security group (new one, can add TCP protocols now or later)
+3. launch
+4. connect: `ssh -i ubuntu-ec2.pem ubuntu@ec2-35-171-153-96.compute-1.amazonaws.com` (type `yes` when asked)
+5. install node: `curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -` then `sudo apt install nodejs`
+6. install git: `sudo apt install git`
+7. clone repos
+8. transfer files: `scp -i ubuntu-ec2.pem env.js ubuntu@ec2-35-171-153-96.compute-1.amazonaws.com:~`
+9. add ports: instance -> security group -> inbound rules -> edit -> add custom TCP (enable both frontend & backend ports)
+10. start servers, configure properly
 
-1.  Go to `Edit > Settings > SFTP`.
-2.  Click "Add key file..." and select your private key (`.pem` or `id_rsa`).
-3.  Go to `File > Site Manager` and create a new site.
-4.  **Protocol**: `SFTP - SSH File Transfer Protocol`
-5.  **Host**: The remote server's IP address or hostname.
-6.  **Logon Type**: `Key file`
-7.  **User**: Your remote username.
-8.  **Key file**: Browse and select your private key file.
+### Connecting with FileZilla (.pem)
 
-## Connecting to Linux from Windows (Xrdp)
+- `Edit > Settings > SFTP > add file` (add `.pem`, can add many)
+- `File > Site Manager > New Site`
+  - Protocol: SFTP
+  - Port: blank (or 22)
+  - Username: give
+  - Password: blank (connects automatically using the `.pem` file)
 
-You can use the Remote Desktop Protocol (RDP) to get a full graphical desktop session on your Linux machine from Windows.
+### SSH keys (general)
 
-1.  **Install Xrdp** on your Linux machine:
-    ```bash
-    sudo apt install xrdp
-    ```
-2.  **Allow the RDP port** through the firewall:
-    ```bash
-    sudo ufw allow 3389
-    ```
-3.  **Add your user to the `ssl-cert` group**:
-    ```bash
-    sudo adduser your_user ssl-cert
-    ```
-4.  **Restart the Xrdp service**:
-    ```bash
-    sudo systemctl restart xrdp
-    ```
--   **Note**: Xrdp typically does not allow a user to be logged in both locally and remotely at the same time. If you see a blank screen when connecting, make sure you are logged out of the local session on the Linux machine. It's often best to create a dedicated user for RDP connections.
+- generate: `ssh-keygen` (use default location `~/.ssh/id_rsa` / `id_rsa.pub`, or any folder; use a strong passphrase)
+- add public key to remote server
+  - `cat ~/.ssh/id_rsa.pub | ssh -i pem_file.pem user@ec2-instance.com "cat >> .ssh/authorized_keys"`
+  - or manually: copy `cat ~/.ssh/id_rsa.pub` output, login to remote, `nano ~/.ssh/authorized_keys`, paste on new line
+- if more than one ssh key exists, add explicitly: `ssh-add path_to_ssh` (eg `ssh-add ~/.ssh/id_rsa_do`)
+  - if error `couldn't open connection to agent`: restart agent with `` eval `ssh-agent -s` ``
+- if it asks passphrase every time: `ssh-add`
+  - if error `Could not open a connection to your authentication agent`: `eval $(ssh-agent)`
 
-## Creating a Systemd Service
+### Remote GUI client (eg with pem file)
 
-To run an application as a background service that starts on boot, you can create a `systemd` service file.
+- new connection -> Name: any, Protocol: SSH, Server: ip_address, Username: ubuntu/root
+- Authentication Type: SSH identity file, check the box and select the file -> connect
 
-1.  **Create a service file**:
-    ```bash
-    sudo nano /etc/systemd/system/myapp.service
-    ```
-2.  **Add the service configuration**:
+### Connect linux from windows (xrdp)
 
-    ```ini
-    [Unit]
-    Description=My Awesome App
+- `sudo apt install xrdp`
+- enable auto start (optional): `sudo systemctl enable --now xrdp`
+- allow port: `sudo ufw allow 3389`
+- add user to ssl-cert group (only these users can access xrdp): `adduser ravinder ssl-cert`
+- restart: `systemctl restart xrdp`
+- note: only one user login session allowed (can't use system with same user remotely & locally)
+  - create a separate user for rdp and logout the local user
+  - if blank screen appears on windows login: means same user is accessing the system, logout the local one
 
-    [Service]
-    # The command to start the application
-    ExecStart=/path/to/your/application/executable
-    
-    # The user to run the service as
-    User=your_user
-    
-    # Restart the service if it fails
-    Restart=on-failure
+## Timezone
 
-    [Install]
-    # Start the service at boot
-    WantedBy=multi-user.target
-    ```
+- see current: `date`
+- list all: `timedatectl list-timezones | grep -i Asia`
+- set: ref https://forum.boltiot.com/t/convert-the-utc-to-ist-in-linux/2127
+  1. `timedatectl list-timezones | grep -i Asia`
+  2. `sudo unlink /etc/localtime`
+  3. `sudo ln -s /usr/share/zoneinfo/[zone/timezone] /etc/localtime` (eg `Asia/Kolkata`)
+  4. `date` to verify
 
-3.  **Reload the systemd daemon, enable, and start the service**:
-    ```bash
-    sudo systemctl daemon-reload
-    sudo systemctl enable myapp.service # Enable on boot
-    sudo systemctl start myapp.service  # Start now
-    sudo systemctl status myapp.service # Check status
-    ```
+## Systemd service
 
-## Timezone Configuration
+eg: NAT server service, ref https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-nats-on-ubuntu-16-04
 
--   **List available timezones**:
-    ```bash
-    timedatectl list-timezones
-    ```
--   **Set your timezone**:
-    ```bash
-    sudo timedatectl set-timezone 'Asia/Kolkata'
-    ```
--   **Verify the change**:
-    ```bash
-    date
-    ```
+- optional: create a dedicated user per service
+  - `sudo adduser --system --group --no-create-home --shell /bin/false nats`
+  - `sudo chown -R nats:nats /srv`
+- create service file: `sudo nano /etc/systemd/system/nats.service`
+  ```
+  [Unit]
+  Description=NATS messaging server
+
+  [Service]
+  ExecStart=/srv/nats/bin/gnatsd -c /srv/nats/gnatsd.config
+  User=nats
+  Restart=on-failure
+
+  [Install]
+  WantedBy=multi-user.target
+  ```
+  - `WantedBy=multi-user.target` starts the service on boot
+- `sudo systemctl start nats`
+- `sudo systemctl status nats`
+- `sudo systemctl stop nats`
+- `sudo systemctl daemon-reload` after changing the service file

@@ -1,10 +1,8 @@
+# Mac shell aliases (`.zshrc`)
 
-##############################################################################################
-########################################     Aliases     #####################################
-##############################################################################################
+aliases to improve productivity, grouped by area: system, ports/pid, youtube-dl, git, npm
 
-
-
+```bash
 ###################################### System One Time Configuration ###################################################
 
 : '
@@ -17,7 +15,6 @@
 
 ###################################### System ###################################################
 
-
 alias a=" alias"
 alias ob="open -t ~/.zshrc" ## open bash  " notepad ~/.bashrc"    ##  "open -t ~/.zshrc" in mac  -t -> defaut text editor
 alias oa="open -t ~/.zshrc"
@@ -27,8 +24,6 @@ alias cls=" clear"
 alias cf="open -t " # + file name  ## create file
 alias of="open -t " # + file name	 ## open file
 alias af="open -t about.txt" # about file
-
-
 
 ###################################### Ports & PID ###################################################
 
@@ -40,11 +35,9 @@ alias ports-all="lsof -i -P -n" # to see all running process
 alias ports-search="lsof -i -P -n | grep " # port no     ## to search particular port no and PID
 		##   lsof -i:portNo     <-- this also we can use to see port info
 
-
 alias kill-process="kill " # PID
 alias kill-process-force="kill -9 " # PID
 alias k-p-f="kill -9 " # PID
-
 
 ###################################### youtube-dl ###############################################
 : '
@@ -63,16 +56,6 @@ alias ypi="youtube-dl -f 22 -o '#%(playlist_index)s - %(title)s.%(ext)s' " # url
 
 ###################################### git ###################################################
 
-
-: '
-
-			*** is important command
-
-below some more comments are exist
-
-'
-
-
 alias g="git"
 alias gac="git add -A && git commit -a -m " # + commit message	##					***
 alias gacm="git add -A && git commit -a -m " # + commit message
@@ -84,15 +67,11 @@ alias gs=" git status " 					##					***
 alias glg="git log"						##					***
 alias glgg="git log --graph"		##					***
 
-
 alias gst="git add -A && git stash push -m " # + stash message  # "git add -A && git stash"  ***
 alias gstp="git stash pop"      #    ***
 alias gsta="git stash apply"    #    ***
 alias gstl="git stash list"     #    ***
 alias gstc="git stash clear"    #    ***
-
-
-
 
 ##-------------remote related
 
@@ -100,7 +79,7 @@ alias gr="git remote " #
 alias gra="git remote add " # name + url
 alias grao="git remote add origin " # + url
 
-alias grso="git remote set-url origin " # +url   , to change/set url
+alias grso="git remote set-url origin " # +url   , to change/set url
 alias grsu="git remote set-url " # remoteName url
 alias grv="git remote -v " # to see origin url
 alias grrmo="git remote rm origin "  # instead of origin we can give any name 
@@ -112,19 +91,18 @@ alias grt="git remote " #
 alias grta="git remote add " # name + url
 alias grtao="git remote add origin " # + url
 
-alias grtso="git remote set-url origin " # +url   , to change/set url
+alias grtso="git remote set-url origin " # +url   , to change/set url
 alias grtsu="git remote set-url " # remoteName url
 
 alias grtv="git remote -v " # to see origin url
 alias grts="git remote -v " # to see origin url   # s = see
-
 
 alias grtrmo="git remote rm origin "  # instead of origin we can give any name    ## r= remove // rm= remove
 alias grtro="git remote rm origin "  # instead of origin we can give any name 
 alias grtrm="git remote rm origin "  # instead of origin we can give any name 
 alias grtr="git remote rm origin "  # instead of origin we can give any name 
 
-alias gp="git push " # + remote  branch name
+alias gp="git push " # + remote  branch name
 alias gpo="git push origin" # branch name			##					***
 alias gpom=" git push origin master "
 
@@ -132,7 +110,7 @@ alias gpr="git push -u " # remoteName branchName							***
 alias gpu="git push -u " # remoteName branchName
 
 ## force push
-alias gP="git push -f " # + remote  branch name
+alias gP="git push -f " # + remote  branch name
 alias gPo="git push -f --all origin" # branch name		
 alias gPom="git push -f --all origin master "
 
@@ -141,12 +119,11 @@ alias gPom="git push -f --all origin master "
   eg: gP
 '
 
-alias gpf="git push -f " # + remote  branch name
+alias gpf="git push -f " # + remote  branch name
 alias gpof="git push -f --all origin" # branch name		
 alias gpomf="git push -f --all origin master "
 
-
-alias gl=" git pull " # + remote  branch name
+alias gl=" git pull " # + remote  branch name
 alias glo="git pull origin" # branch name			##					***
 alias glom=" git pull origin master "
 
@@ -154,18 +131,14 @@ alias gf="git fetch " # remote branch name
 alias gfo="git fetch origin " #  branch name
 alias gfom="git fetch origin master "
 
-
-
-
 ## branch 
 alias gbl=" git branch " # , to see local branches		##					***
 alias gbr=" git branch -a " # , to see remote branches		##					***
 alias gb="git branch"
 alias gob="git ls-remote -h origin"
 
-
 ## branch actions
-alias gb=" git branch " # +  branch name 	## to create branch
+alias gb=" git branch " # +  branch name 	## to create branch
 alias gc="git checkout" # + branch name		## to checkout	##					***
 alias gcb=" git checkout -b " # + branch name	## it'll create new branch and do checkout
 
@@ -182,9 +155,7 @@ alias goc="git checkout -b old-commit "	#  +commit id 		##					***
 			or
 		git checkout -b new-branch
 		git merge commit_id
-		
 '
-
 
 alias gm="git merge" # + branch name				##					***
 alias gmXt="git merge -Xtheirs " # +branchname (i.e if conflicts exists, accept theirs/upstream changes) ***
@@ -208,7 +179,6 @@ alias gmf="git merge --allow-unrelated-histories " # + branch name
 	git merge remotes/origin/branchName      or gm remotes/origin/branchName
 '
 
-
 : '
   Revert , Reset, Rebase
     https://opensource.com/article/18/6/git-reset-revert-rebase-commands
@@ -217,7 +187,6 @@ alias gmf="git merge --allow-unrelated-histories " # + branch name
 alias gcp="git cherry-pick" # commit ids
 
 ## revert 
-
 alias grvt="git revert " # commit id    								***
 
 ## unstaging
@@ -246,43 +215,35 @@ alias grbXt="git rebase -Xtheirs " #+branchName  ( i.e if conflicts are there in
 
 ## delete branch
 
-alias gbd="git branch -d" # + branch name  , it works only if it is merged with master #		***
-alias gbD="git branch -D" # + branch name  , delete forcefully	##					***
-alias gpdo="git push -d origin" # branch name  , to delete remote(origin) branch
+alias gbd="git branch -d" # + branch name  , it works only if it is merged with master #		***
+alias gbD="git branch -D" # + branch name  , delete forcefully	##					***
+alias gpdo="git push -d origin" # branch name  , to delete remote(origin) branch
 
+alias gdb="git branch -d" # + branch name  , it works only if it is merged with master
+alias gDb="git branch -D" # + branch name  , delete forcefully
+alias gdob="git push -d origin" # branch name  , to delete remote(origin) branch
 
-alias gdb="git branch -d" # + branch name  , it works only if it is merged with master
-alias gDb="git branch -D" # + branch name  , delete forcefully
-alias gdob="git push -d origin" # branch name  , to delete remote(origin) branch
-
-
-alias gbdl="git branch -d" # + local branch name  , it works only if it is merged with master
-alias gbdr="git branch -d" # + remote branch name  , to delete remote(origin) branch
-alias gbdo="git branch -d" # + origin branch name  , to delete remote(origin) branch
-
-
+alias gbdl="git branch -d" # + local branch name  , it works only if it is merged with master
+alias gbdr="git branch -d" # + remote branch name  , to delete remote(origin) branch
+alias gbdo="git branch -d" # + origin branch name  , to delete remote(origin) branch
 
 ## ----------------------------------- tags---------------------------------
 : '
   tags are reference point to particular commit--> generally used to maintain releases
   tag also refernce to commit, so we can do all action what we can do with commits
    like : creating braches, pushing tags, deleting tags
-   
 '
 ## creation / list
 alias gt="git tag " ## to list all tags  or ## + tag-name to create
  ## to create tag 'git tag tag-name'   use the above alias
 
 : '
-
 -----------------------------------to create annotated tag with message-----------------------------
   $ git tag v.1.1 -a -m "relaese version v.1.1
     // annotaged tag will be stored as a seperate object and it will contain extran info
 
 --------------------------------to search tag with wild cards
    $ git tag -l "name.*"
-
-
 '
 ## info
 alias gts="git show " ## + tag name ---to see all tag info
@@ -301,30 +262,25 @@ alias gtb=" git checkout -b " ## + branch-name + tag-name
 ## to create tag at particular commit
 alias gtc=" git tag " ## tag-name + commitId  
 
-
-
 ## remove files
 
 # from repo and file system
-alias grm="git rm" # + file_name    or  -r folder_name
+alias grm="git rm" # + file_name    or  -r folder_name
 alias grma=" git rm -r *" # remove all
 alias grmA="grma && grma" # removes even hidden and only extension files/folders
-alias grmfl="git rm" # +file name  , folder/t.txt
+alias grmfl="git rm" # +file name  , folder/t.txt
 alias grmfo="git rm -r" # +folder name
 
-
 # from repo not from file system
-alias grmc="git rm --cached" # file_name    or  -r folder_name
-alias grmcfl="git rm -c" # +file name  , folder/t.txt
+alias grmc="git rm --cached" # file_name    or  -r folder_name
+alias grmcfl="git rm -c" # +file name  , folder/t.txt
 alias grmcfo="git rm -r --cached" # +folder name
-
 
 ## git clean , deleting all untracked files/changes
 alias gclean="git clean -f"
 
 ## git reset ,unstage all changes that have been added to stage area ( stage= state after adding and before commit)
 alias greset="git reset ."
-
 
 ## resetting to other branch		( *** if dont't give branch ...it'll reset to current branch)
 alias grs="git reset " # + branchName  // the current branch will be reset to the given branch		***
@@ -334,11 +290,8 @@ alias grsh="git reset --hard " # + branchName // hard reset ...if conflicts are 
 
 ## git reset --hard commitId   -> will reset head to particular commit ( revert the code )		***
 
-
-
-
 ## not to add specific files or folders
-alias gar="git add -A && git reset --" # + file_name    or  -r folder_name
+alias gar="git add -A && git reset --" # + file_name    or  -r folder_name
 
 ## config
 
@@ -355,18 +308,13 @@ alias gCg="git config --global -e" # global config files
 alias gCs="git config --system -e" # system config files
 alias gCl="git config --local -e"	# local config files
 
-
-
-
 ## to see files
 alias ls="ls"
 alias lsb="git ls-tree -r" # +branch name
 alias lsh="git ls-tree -r head" # list current head(branch)
 
-
 ## to see diff between files
 alias gd="git diff" # + br-1:f.txt br-2:f.txt or  commit1Id:f.txt commit2Id:f.txt
-
 
 ## SSH Key
 alias gssh="ssh-keygen" # generate ssh-key
@@ -383,11 +331,9 @@ alias vsshgl="ssh -T git@gitlab.com" # verify ssh with git-lab
     public key in 	/root/.ssh/id_rsa.pub.
 '
 
-
 ## to terminate another processing bash
 alias terminate="rm -f .git/index.lock"
 alias term="rm -f .git/index.lock"
-
 
 ##  to enable auto-complete
 : '
@@ -399,175 +345,6 @@ this will install scrpt file in root directory
   . ~/.git-completion.bash
 fi
 
-
-####################################### git advance ###########################################
-
-: '
-----------------------------------
-  setting current shell variables and using
- 
-eg 1)  	gc="git checkout"
-  	$gc master
-  	
-eg 2)  	name="Ravinder"
-	 echo $name
- '
-: '
-
-----------------------------------------------------------------------------------------------------------
----------------------------------------------git comments------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-  
-
---------------------------------  to pull till particular commit-------------------------------
-
-git pull=git fetch + git merge ( merges the latest comment ) 
-
-# to pull particular commit --> fetch the branch, but merge till the particular commit
-
-git fetch origin branch-1
-git merge commit_id
-
-( do this in new branch ) 
-
-# tip:- create a new branch --> then fetch the source branch --> then merge the required commit 
-	( if you want that commit code back to source branch, merge the new branch back to source )
-	( do this all in local )
-
-# tip:-  todo the same above tip short cut 
-		-> git checkout -b new-branch commit_id
-		( it will create a new branch with name new-branch  with the code till the commit commit_id)
-
-
----------------------------------------- references -----------------------------------------------
-
----------to undo changes
-ref https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_undoing_merges
-
-
-----------------------------------------------------------------------------------------------------------
----------------------------------------------other comments------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-
----------------------------------------------- to quit vim editor ---------------------------------------------------
-ESC   then     :    then    q!
-  
-
- 
-'
-: '
-
-
-
-----------------------------------    Treacking & Untracking --------------
-
-  # fileName  - file or directory
- git add fileName   # adds file to tracking ( and staging also)
- git rm --cahed  fileName  # makes untrack    
-
- ---------------------  to skip one from tracking --------------
- git add -A 
- git rm --cahed  fileName  # makes untrack 
-
- ----------------------------------    Staging & Unstaging --------------
-  # only tracked files ...will be staged
-
- git add fileName   # adds file to tracking ( and staging also)
- git reset HEAD -- fileName  # unstage
-
-------------------   skip one file from commt -------
-
-git add -u  # add only updated files to statging    *****
-git reset -- main/dontcheckmein.txt
-git commit -m "message"
-
--------------- to change last commit message ---------
-
-git commit --amend -m "Put your corrected message here"
-
-
-
-'
-
-: '
-
-  git pull=git fetch + git merge
-  git merge feature master =git checkout feature & git merge master
-
-'
-
-
-: '  ------------------untacking tracked files(folders)------------------------
-   to ignore already tracked files ( untracking the tracked files )
-   note: once if a file is tracked ....git ignore will not ignore that file ...untill we untrack it
-   to do that  
-
-		git rm -c  fileName    // alias grmcfl +fileName
-		git rm -r -c  folderName    // alias grmcfo +fileName
-
-
-
-  ------------------removing commint history of a file(folder)-----------------
-
-     1) remove in local hisory by rewritting
-	git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch file" HEAD    ##  HEAD=current branch  it works for both file and folder
-
-
-	(
-	Note: when we rewrite it will take backup for that branch...so if already backup exists...it will not allow to rewrite
-		... in that case remove the backup
-
-	... to remove backup
-      	git update-ref -d refs/original/refs/heads/branchName
-
-	...note some times other branch backup may exists...try to remove that also	
-
-	)
-    2) push all changes to remote   ...( if required use --force)
-      git push origin -f --all    ( it will push to current branch)
-
-
-   ref https://stackoverflow.com/questions/43762338/how-to-remove-file-from-git-history/43762489#43762489
-   ref https://stackoverflow.com/questions/7654822/remove-refs-original-heads-master-from-git-repo-after-filter-branch-tree-filte
-
-'
-
-: '  below actions are done in mVBR
-
-git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch config/env.js" HEAD
-git update-ref -d refs/original/refs/heads/branchName
-
-
-git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch config/default.json" HEAD
-git update-ref -d refs/original/refs/heads/branchName
-
-git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch config/db.js" HEAD
-git update-ref -d refs/original/refs/heads/branchName
-        
-git push origin -f --all
-
-
---------------------------------------- to revert ( to go ) to particular commit------------------
-
-git reset --hard commitId / branch
-
-
---------------------------------------- mirroring repo / coping repo ------------------
-to do this alread an old-repo should exist and... one empty new-repo should be created in remote 
-
-	git clone --bare old-url
-	cd old-repo
-	git lfs fetch --all         // only if large files exists in repo
-	git push --mirror new-url
-	git lfs push --all new-url  // only if large files exists in repo
-	
-	now we can delete local bare repo ( old-repo.git)
-	cd ..
- 	rm -rf old-repo.git
-
-'
-
-
 ####################################### npm configurations ####################################
 
 alias ns="npm start"
@@ -578,11 +355,9 @@ alias nr="npm run" # + any npm cmd
 alias rmn="rm -r node_modules" # remove node modules
 alias rmna="rm -r ./**/node_modules" # remove node modules
 
-
 # mkdir -p "${HOME}/.npm-global"
 
-
-NPM_PACKAGES="${HOME}/.npm-global". ## "~/.npm-global"
+NPM_PACKAGES="${HOME}/.npm-global"
 
 npm config set prefix $NPM_PACKAGES
 
@@ -591,20 +366,4 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 # Preserve MANPATH if you already defined it somewhere in your config.
 # Otherwise, fall back to `manpath` so we can inherit from `/etc/manpath`.
 export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
-
-
-
-: '
- # only once is enough
-
-## mkdir "${HOME}/.npm-global"
-
-NPM_PACKAGES="/home/ravinder/.npm-global"
-
-npm config set prefix $NPM_PACKAGES
-
-export PATH=$NPM_PACKAGES/bin:$PATH
-'
-
-
-
+```

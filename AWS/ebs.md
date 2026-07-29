@@ -1,0 +1,3 @@
+# AWS EBS
+
+- ref: https://devopscube.com/mount-ebs-volume-ec2-instance/

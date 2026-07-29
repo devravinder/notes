@@ -1,4 +1,0 @@
-# AWS CodeDeploy agent install
-
-- `wget https://bucket-name.s3.region-identifier.amazonaws.com/latest/install`
-- `wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install`

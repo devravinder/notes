@@ -1,3 +1,5 @@
+# Tmux aliases
+
 alias t="tmux"
 alias td="tmux detach" # current session                                                                ***
 alias ta="tmux attach" # latest sesion                                                                  ***

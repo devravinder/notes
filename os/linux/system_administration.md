@@ -10,6 +10,15 @@
   - start: `sudo systemctl start gdm3.service`
   - then re-enter GUI mode
 
+## Firewall Enable/Disable PORT
+
+- check status: `sudo ufw status`
+- Enable : `sudo ufw enable`
+- reload : `sudo ufw reload`
+- see rules: `sudo ufw status numbered`
+- allow port: `sudo ufw allow 1025` or ``sudo ufw allow 1025/tcp`
+- allow port range: `sudo ufw allow 8000:8100/tcp`
+
 ## Wayland (screen share fix)
 
 - if unable to share screen through browser (chrome): `sudo nano /etc/gdm3/custom.conf`
@@ -183,7 +192,7 @@ eg: NAT server service, ref <https://www.digitalocean.com/community/tutorials/ho
   - `sudo chown -R nats:nats /srv`
 - create service file: `sudo nano /etc/systemd/system/nats.service`
 
-  ```
+  ```text
   [Unit]
   Description=NATS messaging server
 
